@@ -1,0 +1,234 @@
+{
+"MenuFile" : "文件",
+	"New" : "新建",
+	"New_File" : "新建文件",
+	"New_from_Clipboard" : "从剪切板新建",
+	//——————————
+	"New_Region_File" : "新建区块文件",
+	"Open_File" : "打开文件",
+	"Open_Folder" : "打开文件夹",
+	"Import" : "导入",
+		"Import_File" : "导入文件",
+		"Import_Folder" : "导入文件夹",
+		"Import_New_File" : "导入新文件",
+		"Import_New_Region_File" : "导入新区块文件",
+		"Import_From_Clipboard" : "从剪切板导入",
+	//——————————
+	"Save" : "保存",
+	"Save_As" : "另存为",
+	//——————————
+	"Recent" : "最近文件",
+	
+"MenuEdit" : "编辑",
+	"Undo" : "撤销",
+	"Redo" : "重做",
+	//——————————
+	"Cut" : "剪切",
+	"Copy" : "复制",
+	"Paste" : "粘贴",
+	//——————————
+	"Rename" : "重命名",
+	"Edit_Value" : "编辑值",
+	"Edit_as_SNBT" : "以NBT编辑",
+	"Delete" : "删除",
+	//——————————
+	"Undo_History" : "撤销历史",
+	"Redo_History" : "重做历史",
+	"Clear_Undo_History" : "清除撤销历史",
+	
+"MenuSearch" : "查找",
+	"Find" : "查找",
+	
+"MenuHelp" : "帮助",
+	"About" : "关于",
+	"Language" : "语言",
+	"Change_Icons" : "更换图标",
+	//——————————
+	"Update" : "更新",
+	"Check_for_Updates" : "检查更新",
+
+
+//toolbar
+"Refresh" : "刷新",
+"Sort" : "排序",
+"Add_Chunk" : "添加区块",
+"Add_Tag.1" : "添加 {0} 标签",
+"Add_as_SNBT" : "以NBT添加",
+
+
+//messages
+"Refresh_Failed" : "{0} 刷新失败：\n\n",
+"Load_Failed" : "{0} 加载失败：",
+
+"Create_New_File_Anyway" : "是否仍要创建新文件？",
+"Open_New_File_Anyway" : "是否仍要打开新文件？",
+"Open_New_Folder_Anyway" : "是否仍要打开新文件夹？",
+
+"Clipboard_error" : "剪贴板错误",
+	"Clipboard_error_Detail" : "无法从剪贴板解析SNBT。",
+
+"Select_NBT_files" : "选择NBT文件",
+"Select_NBT_folder" : "选择一个包含NBT文件的文件夹",
+
+"Unsaved_Changes" : "未保存的更改",
+	"Unsaved_Changes_Detail.1" : "您当前有未保存的更改。\n\n您确定要放弃对这些文件的更改吗？",
+	"Unsaved_Changes_Detail.2" : "您当前有未保存的更改。\n\n{0}",
+
+"Delete_Item_Confirmation" : "您确定要删除此项目吗？",
+	"Delete_Item_Confirmation_Detail.1" : "真的要删除此未保存的文件吗？",
+	"Delete_Item_Confirmation_Detail.2" : "它将被发送到回收站。此操作无法撤消。",
+	"Delete_Item_Confirmation_Detail.3" : "真的要删除 {0} 吗？",
+"Delete_Items_Confirmation" : "您确定要删除 {0} 吗？",
+	"Delete_Items_Confirmation_Detail.1" : "真的要删除这些项目吗？",
+	"Delete_Items_Confirmation_Detail.2" : "{0} 将被发送到回收站。此操作无法撤消。",
+"Error_while_deleting" : "删除时出错",
+	"Error_while_deleting_Detail" : "删除时出错：",
+	
+"Update_check_failed" : "检查更新失败",
+	"Update_check_failed_Detail" : "未能检查更新",
+"Update_Page" : "您想转到更新页面吗？\n",
+"Latest_Update" : "您似乎已经获得了最新更新。\n",
+"No_update_found" : "无可用更新",
+	
+"No_Images" : "此图标集中找不到图像",
+	
+	
+//Right click menu
+"Collapse" : "折叠",
+"Expand_All" : "全部展开",
+"Deselect_all_Children" : "取消选择所有子项",
+"Select_all_Children" : "选择所有子项",
+"Save_File" : "保存文件",
+"Save_File_As" : "文件另存为",
+"Open_in_Explorer" : "在资源管理器中打开",
+"Add" : "添加",
+	"Add_Tag.2" : " {0} 标签",
+
+// TextBoxes
+"Missing_Name" : "缺少名称",
+	"Missing_Name_Detail" : "您必须为此文件指定一个名称",
+	
+"Illegal_Characters" : "非法字符",
+	"Illegal_Characters_Detail" : "指定的名称包含不允许的字符",
+	
+"File_Already_Exists" : "文件已存在",
+	"File_Already_Exists_Detail" : "具有此名称的文件已经存在",
+	
+"Invalid_Format" : "格式无效",
+	"Invalid_Format_Detail" : "{0} 的值不正确",
+	
+"Out_of_Range" : "超出范围",
+	"Out_of_Range_Detail" : "{0} 的值必须在 {1} 和 {2} 之间",
+	
+"Unknown_Error" : "未知错误",
+	"Unknown_Error_Detail" : "试图分析值时出现未知错误",
+	
+"Regex_Parsing_Error" : "正则表达式解析错误",
+"Wrong_Type" : "类型错误",
+"Valid" : "有效",
+
+//interface
+"Use_CreateTag" : "使用CreateTag创建标签",
+"Create_Tag_Detail" : "创建 {0} 标签",
+"Edit_Tag_Detail" : "编辑 {0} 标签",
+"OK" : "确认",
+"Cancel" : "取消",
+"Name" : "名称",
+"Value" : "值",
+"Regex" : "正则表达式",
+"Word_Wrap" : "自动换行",
+"Minify" : "缩减文本",
+
+
+//ChunkCoordEditControl.cs
+"Chunk_Already_Present" : "区块已经存在",
+	"Chunk_Already_Present_Detail" : "在这些坐标处的区域中已经存在区块",
+"Out_of_Bounds" : "超出边界",
+	"Out_of_Bounds_Detail" : "区块坐标必须介于0和｛0｝之间",
+
+
+//BulkEditWindow.cs
+"Rename_Detail" : "重命名 {0}",
+	"Current_Name" : "当前名称",
+	"New_Name" : "新名称",
+	"Old_Name" : "旧名称",
+"Edit_Detail" : "编辑 {0}",
+	"Current_Value" : "当前值",
+	"New_Value" : "新值",
+	"Old_Value" : "旧值",
+"Edit_Tag" : "编辑标签",
+
+
+//EditChunkWindow.cs
+"Create_Chunk" : "创建区块",
+"Move_Chunk" : "移动区块",
+
+
+//EditHexWindow.cs
+"Elements" : "元素 {0} - {1}",
+"Element" : "元素 {0}",
+"Conversion_Error" : "无法将字节转换为大小为 {0} 的数字类型",
+"Text_View" : "文本视图",
+"Hex_View" : "十六进制视图",
+"Edit_Hex" : "编辑十六进制",
+
+
+//EditSnbtWindow.cs
+"Create_Tag_as_SNBT" : "以SNBT创建标签",
+	"Create_Tag_as_SNBT_Detail" : "以SNBT创建 {0} 标签",
+"Edit_Tag_as_SNBT_Detail" : "以SNBT编辑 {0} 标签",
+"Edit_SNBT" : "编辑SNBT",
+
+
+//EditTagWindow.cs
+"Create_Tag" : "创建标签",
+
+
+//ExceptionWindow.cs
+"Less_Details" : "更少细节",
+"More_Details" : "更多细节",
+"CheckLittleEndian" : "所有基岩版文件都需要",
+"CheckBedrockHeader" : "基岩版level.dat文件需要",
+"CheckJson" : "引用所有键，删除类型后缀和列表指示符",
+
+
+//ExportWindow.cs
+"Little-Endian" : "由小到大",
+"Bedrock_Header" : "基岩集管",
+"Export_Settings" : "导出设置",
+
+
+//FindWindow.cs
+"No_Results_Found" : "未找到结果",
+"Found_Amount" : "找到｛0｝个匹配的结果",
+"Find_Next" : "查找下一个",
+"Find_Previous" : "查找上一个",
+"Find_All" : "查找全部",
+
+
+//IconSetWindow.cs
+"Icon_ZIP" : "选择自定义图标ZIP文件",
+"Failed_load_icons" : "无法加载图标",
+	"Failed_load_icons_Detail" : "无法加载此处的自定义图标源。",
+"Loading_icons" : "加载图标",
+"Select_Icon_Set" : "选择图标集",
+
+
+// LanguageWindow.cs
+"LanguageWindow_Title" : "选择语言",
+"Restart_Required" : "提示",
+	"Restart_Required_Detail" : "需要重启应用以应用更改，是否立即重启？",
+"Select_Language" : "查找语言",
+
+
+//RenameFileWindow.cs
+"Rename_File" : "重命名文件",
+
+
+//UpdateWindow.cs
+"Update_error" : "更新错误",
+	"Update_error_Detail" : "更新应用程序失败。",
+"Current_Version" : "当前版本",
+"Available_Version" : "可用版本",
+"Changelog" : "更新日志",
+}
