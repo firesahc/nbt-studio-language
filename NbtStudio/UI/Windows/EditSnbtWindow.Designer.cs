@@ -50,7 +50,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(88, 27);
             this.ButtonCancel.TabIndex = 7;
-            this.ButtonCancel.Text = "Cancel";
+            this.ButtonCancel.Text = LocalizationManager.GetText("Cancel");
             this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // ButtonOk
@@ -61,7 +61,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(88, 27);
             this.ButtonOk.TabIndex = 6;
-            this.ButtonOk.Text = "OK";
+            this.ButtonOk.Text = LocalizationManager.GetText("OK");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -74,7 +74,7 @@
             this.MinifyCheck.Name = "MinifyCheck";
             this.MinifyCheck.Size = new System.Drawing.Size(60, 19);
             this.MinifyCheck.TabIndex = 5;
-            this.MinifyCheck.Text = "Minify";
+            this.MinifyCheck.Text = LocalizationManager.GetText("Minify");
             this.MinifyCheck.UseVisualStyleBackColor = true;
             this.MinifyCheck.Visible = false;
             this.MinifyCheck.CheckedChanged += new System.EventHandler(this.MinifyCheck_CheckedChanged);
@@ -102,7 +102,7 @@
             this.WordWrapCheck.Name = "WordWrapCheck";
             this.WordWrapCheck.Size = new System.Drawing.Size(86, 19);
             this.WordWrapCheck.TabIndex = 8;
-            this.WordWrapCheck.Text = "Word Wrap";
+            this.WordWrapCheck.Text = LocalizationManager.GetText("Word_Wrap");
             this.WordWrapCheck.UseVisualStyleBackColor = true;
             this.WordWrapCheck.Visible = false;
             this.WordWrapCheck.CheckedChanged += new System.EventHandler(this.WordWrapCheck_CheckedChanged);
@@ -116,7 +116,7 @@
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(44, 15);
             this.NameLabel.TabIndex = 1;
-            this.NameLabel.Text = "Name:";
+            this.NameLabel.Text = LocalizationManager.GetText("Name");
             // 
             // MainTable
             // 
@@ -169,23 +169,23 @@
             // EditSnbtWindow
             // 
             this.AcceptButton = this.ButtonOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
             this.CancelButton = this.ButtonCancel;
-            this.ClientSize = new System.Drawing.Size(331, 138);
+            this.ClientSize = new System.Drawing.Size(520, 221);
             this.Controls.Add(this.MainTable);
             this.Controls.Add(this.ButtonsPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(347, 109);
+            this.MinimumSize = new System.Drawing.Size(533, 141);
             this.Name = "EditSnbtWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Edit SNBT...";
+            this.Text = LocalizationManager.GetText("Edit_SNBT");
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EditSnbtWindow_FormClosed);
             this.Load += new System.EventHandler(this.EditSnbtWindow_Load);
             this.ButtonsPanel.ResumeLayout(false);

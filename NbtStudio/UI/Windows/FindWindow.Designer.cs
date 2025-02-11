@@ -36,7 +36,7 @@
             this.ButtonFindNext.Name = "ButtonFindNext";
             this.ButtonFindNext.Size = new System.Drawing.Size(75, 23);
             this.ButtonFindNext.TabIndex = 8;
-            this.ButtonFindNext.Text = "Find Next";
+            this.ButtonFindNext.Text = LocalizationManager.GetText("Find_Next");
             this.ButtonFindNext.UseVisualStyleBackColor = true;
             this.ButtonFindNext.Click += new System.EventHandler(this.ButtonFindNext_Click);
             // 
@@ -45,11 +45,11 @@
             this.ButtonFindPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonFindPrev.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ButtonFindPrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.ButtonFindPrev.Location = new System.Drawing.Point(77, 91);
+            this.ButtonFindPrev.Location = new System.Drawing.Point(107, 91);
             this.ButtonFindPrev.Name = "ButtonFindPrev";
-            this.ButtonFindPrev.Size = new System.Drawing.Size(108, 23);
+            this.ButtonFindPrev.Size = new System.Drawing.Size(75, 23);
             this.ButtonFindPrev.TabIndex = 7;
-            this.ButtonFindPrev.Text = "Find Previous";
+            this.ButtonFindPrev.Text = LocalizationManager.GetText("Find_Previous");
             this.ButtonFindPrev.UseVisualStyleBackColor = true;
             this.ButtonFindPrev.Click += new System.EventHandler(this.ButtonFindPrev_Click);
             // 
@@ -61,7 +61,7 @@
             this.RegexCheck.Name = "RegexCheck";
             this.RegexCheck.Size = new System.Drawing.Size(57, 17);
             this.RegexCheck.TabIndex = 6;
-            this.RegexCheck.Text = "Regex";
+            this.RegexCheck.Text = LocalizationManager.GetText("Regex");
             this.RegexCheck.UseVisualStyleBackColor = true;
             this.RegexCheck.CheckedChanged += new System.EventHandler(this.RegexCheck_CheckedChanged);
             // 
@@ -74,7 +74,7 @@
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(44, 15);
             this.NameLabel.TabIndex = 0;
-            this.NameLabel.Text = "Name:";
+            this.NameLabel.Text = LocalizationManager.GetText("Name") + ":";
             // 
             // ValueLabel
             // 
@@ -85,7 +85,7 @@
             this.ValueLabel.Name = "ValueLabel";
             this.ValueLabel.Size = new System.Drawing.Size(41, 15);
             this.ValueLabel.TabIndex = 2;
-            this.ValueLabel.Text = "Value:";
+            this.ValueLabel.Text = LocalizationManager.GetText("Value") + ":";
             // 
             // ButtonFindAll
             // 
@@ -96,7 +96,7 @@
             this.ButtonFindAll.Name = "ButtonFindAll";
             this.ButtonFindAll.Size = new System.Drawing.Size(75, 23);
             this.ButtonFindAll.TabIndex = 9;
-            this.ButtonFindAll.Text = "Find All";
+            this.ButtonFindAll.Text = LocalizationManager.GetText("Find_All");
             this.ButtonFindAll.UseVisualStyleBackColor = true;
             this.ButtonFindAll.Click += new System.EventHandler(this.ButtonFindAll_Click);
             // 
@@ -176,7 +176,7 @@
             this.Name = "FindWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Find...";
+            this.Text = LocalizationManager.GetText("Find");
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FindWindow_FormClosed);
             this.Load += new System.EventHandler(this.FindWindow_Load);
             this.ResumeLayout(false);

@@ -16,6 +16,7 @@ using System.Diagnostics;
 using TryashtarUtils.Utility;
 using TryashtarUtils.Nbt;
 using TryashtarUtils.Forms;
+using NBTStudio;
 
 namespace NbtStudio.UI
 {
@@ -48,41 +49,42 @@ namespace NbtStudio.UI
         private readonly string[] ClickedFiles;
 
         private readonly DualItemCollection ItemCollection;
-        private readonly DualMenuItem ActionNew = new DualMenuItem("&New", "New File", IconType.NewFile, Keys.Control | Keys.N);
-        private readonly DualMenuItem ActionNewClipboard = DualMenuItem.SingleMenuItem("New from &Clipboard", IconType.Paste, Keys.Control | Keys.Alt | Keys.V);
-        private readonly DualMenuItem ActionNewRegion = DualMenuItem.SingleMenuItem("New &Region File", IconType.Region, Keys.Control | Keys.Alt | Keys.R);
-        private readonly DualMenuItem ActionOpenFile = new DualMenuItem("&Open File", "Open File", IconType.OpenFile, Keys.Control | Keys.O);
-        private readonly DualMenuItem ActionOpenFolder = new DualMenuItem("Open &Folder", "Open Folder", IconType.OpenFolder, Keys.Control | Keys.Shift | Keys.O);
-        private readonly DualMenuItem ActionSave = new DualMenuItem("&Save", "Save", IconType.Save, Keys.Control | Keys.S);
-        private readonly DualMenuItem ActionSaveAs = DualMenuItem.SingleMenuItem("Save &As", IconType.Save, Keys.Control | Keys.Shift | Keys.S);
-        private readonly DualMenuItem DropDownRecent = DualMenuItem.SingleMenuItem("&Recent...", null, Keys.None);
-        private readonly DualMenuItem DropDownImport = DualMenuItem.SingleMenuItem("&Import...", null, Keys.None);
-        private readonly DualMenuItem ActionImportFile = DualMenuItem.SingleMenuItem("&File", IconType.OpenFile, Keys.Control | Keys.I);
-        private readonly DualMenuItem ActionImportFolder = DualMenuItem.SingleMenuItem("F&older", IconType.OpenFolder, Keys.Control | Keys.Shift | Keys.I);
-        private readonly DualMenuItem ActionImportNew = DualMenuItem.SingleMenuItem("&New File", IconType.NewFile, Keys.Control | Keys.Alt | Keys.N);
-        private readonly DualMenuItem ActionImportNewRegion = DualMenuItem.SingleMenuItem("New &Region File", IconType.Region, Keys.None);
-        private readonly DualMenuItem ActionImportClipboard = DualMenuItem.SingleMenuItem("From &Clipboard", IconType.Paste, Keys.Control | Keys.Alt | Keys.I);
-        private readonly DualMenuItem ActionSort = DualMenuItem.SingleButton("Sort", IconType.Sort);
-        private readonly DualMenuItem ActionRefresh = DualMenuItem.SingleButton("Refresh", IconType.Refresh);
-        private readonly DualMenuItem ActionUndo = DualMenuItem.SingleMenuItem("&Undo", IconType.Undo, Keys.Control | Keys.Z);
-        private readonly DualMenuItem ActionRedo = DualMenuItem.SingleMenuItem("&Redo", IconType.Redo, Keys.Control | Keys.Shift | Keys.Z);
-        private readonly DualMenuItem ActionCut = new DualMenuItem("Cu&t", "Cut", IconType.Cut, Keys.Control | Keys.X);
-        private readonly DualMenuItem ActionCopy = new DualMenuItem("&Copy", "Copy", IconType.Copy, Keys.Control | Keys.C);
-        private readonly DualMenuItem ActionPaste = new DualMenuItem("&Paste", "Paste", IconType.Paste, Keys.Control | Keys.V);
-        private readonly DualMenuItem ActionRename = new DualMenuItem("Re&name", "Rename", IconType.Rename, Keys.F2);
-        private readonly DualMenuItem ActionEdit = new DualMenuItem("&Edit Value", "Edit", IconType.Edit, Keys.Control | Keys.E);
-        private readonly DualMenuItem ActionEditSnbt = new DualMenuItem("Edit as &SNBT", "Edit as SNBT", IconType.EditSnbt, Keys.Control | Keys.Shift | Keys.E);
-        private readonly DualMenuItem ActionDelete = new DualMenuItem("&Delete", "Delete", IconType.Delete, Keys.Delete);
-        private readonly DualMenuItem DropDownUndoHistory = DualMenuItem.SingleMenuItem("Undo History...", IconType.Undo, Keys.None);
-        private readonly DualMenuItem DropDownRedoHistory = DualMenuItem.SingleMenuItem("Redo History...", IconType.Redo, Keys.None);
-        private readonly DualMenuItem ActionClearUndoHistory = DualMenuItem.SingleMenuItem("Clear Undo History", null, Keys.None);
-        private readonly DualMenuItem ActionFind = new DualMenuItem("&Find", "Find", IconType.Search, Keys.Control | Keys.F);
-        private readonly DualMenuItem ActionAbout = DualMenuItem.SingleMenuItem("&About", IconType.NbtStudio, Keys.Shift | Keys.F1);
-        private readonly DualMenuItem ActionChangeIcons = DualMenuItem.SingleMenuItem("&Change Icons", IconType.Refresh, Keys.Control | Keys.I);
-        private readonly DualMenuItem ActionAddSnbt = DualMenuItem.SingleButton("Add as SNBT", IconType.AddSnbt);
-        private readonly DualMenuItem ActionAddChunk = DualMenuItem.SingleButton("Add Chunk", IconType.Chunk);
-        private readonly DualMenuItem ActionUpdate = DualMenuItem.SingleMenuItem("&Update", null, Keys.None);
-        private readonly DualMenuItem ActionCheckUpdates = DualMenuItem.SingleMenuItem("Check for &Updates", null, Keys.Control | Keys.U);
+        private readonly DualMenuItem ActionNew = new DualMenuItem(LocalizationManager.GetText("New"),LocalizationManager.GetText("New_File"), IconType.NewFile, Keys.Control | Keys.N);
+        private readonly DualMenuItem ActionNewClipboard = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("New_from_Clipboard"), IconType.Paste, Keys.Control | Keys.Alt | Keys.V);
+        private readonly DualMenuItem ActionNewRegion = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("New_Region_File"), IconType.Region, Keys.Control | Keys.Alt | Keys.R);
+        private readonly DualMenuItem ActionOpenFile = new DualMenuItem(LocalizationManager.GetText("Open_File"),LocalizationManager.GetText("Open_File"), IconType.OpenFile, Keys.Control | Keys.O);
+        private readonly DualMenuItem ActionOpenFolder = new DualMenuItem(LocalizationManager.GetText("Open_Folder"),LocalizationManager.GetText("Open_Folder"), IconType.OpenFolder, Keys.Control | Keys.Shift | Keys.O);
+        private readonly DualMenuItem ActionSave = new DualMenuItem(LocalizationManager.GetText("Save"),LocalizationManager.GetText("Save"),IconType.Save, Keys.Control | Keys.S);
+        private readonly DualMenuItem ActionSaveAs = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Save_As"), IconType.Save, Keys.Control | Keys.Shift | Keys.S);
+        private readonly DualMenuItem DropDownRecent = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Recent"), null, Keys.None);
+        private readonly DualMenuItem DropDownImport = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Import"), null, Keys.None);
+        private readonly DualMenuItem ActionImportFile = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Import_File"), IconType.OpenFile, Keys.Control | Keys.I);
+        private readonly DualMenuItem ActionImportFolder = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Import_Folder"), IconType.OpenFolder, Keys.Control | Keys.Shift | Keys.I);
+        private readonly DualMenuItem ActionImportNew = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Import_New_File"), IconType.NewFile, Keys.Control | Keys.Alt | Keys.N);
+        private readonly DualMenuItem ActionImportNewRegion = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Import_New_Region_File"), IconType.Region, Keys.None);
+        private readonly DualMenuItem ActionImportClipboard = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Import_From_Clipboard"), IconType.Paste, Keys.Control | Keys.Alt | Keys.I);
+        private readonly DualMenuItem ActionSort = DualMenuItem.SingleButton(LocalizationManager.GetText("Sort"), IconType.Sort);
+        private readonly DualMenuItem ActionRefresh = DualMenuItem.SingleButton(LocalizationManager.GetText("Refresh"), IconType.Refresh);
+        private readonly DualMenuItem ActionUndo = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Undo"), IconType.Undo, Keys.Control | Keys.Z);
+        private readonly DualMenuItem ActionRedo = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Redo"), IconType.Redo, Keys.Control | Keys.Shift | Keys.Z);
+        private readonly DualMenuItem ActionCut = new DualMenuItem(LocalizationManager.GetText("Cut"), LocalizationManager.GetText("Cut"),  IconType.Cut, Keys.Control | Keys.X);
+        private readonly DualMenuItem ActionCopy = new DualMenuItem(LocalizationManager.GetText("Copy"),LocalizationManager.GetText("Copy"), IconType.Copy, Keys.Control | Keys.C);
+        private readonly DualMenuItem ActionPaste = new DualMenuItem(LocalizationManager.GetText("Paste"),LocalizationManager.GetText("Paste"), IconType.Paste, Keys.Control | Keys.V);
+        private readonly DualMenuItem ActionRename = new DualMenuItem(LocalizationManager.GetText("Rename"),LocalizationManager.GetText("Rename"), IconType.Rename, Keys.F2);
+        private readonly DualMenuItem ActionEdit = new DualMenuItem(LocalizationManager.GetText("Edit_Value"),LocalizationManager.GetText("Edit_Value"), IconType.Edit, Keys.Control | Keys.E);
+        private readonly DualMenuItem ActionEditSnbt = new DualMenuItem(LocalizationManager.GetText("Edit_as_SNBT"), LocalizationManager.GetText("Edit_as_SNBT"), IconType.EditSnbt, Keys.Control | Keys.Shift | Keys.E);
+        private readonly DualMenuItem ActionDelete = new DualMenuItem(LocalizationManager.GetText("Delete"),LocalizationManager.GetText("Delete"), IconType.Delete, Keys.Delete);
+        private readonly DualMenuItem DropDownUndoHistory = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Undo_History"), IconType.Undo, Keys.None);
+        private readonly DualMenuItem DropDownRedoHistory = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Redo_History"), IconType.Redo, Keys.None);
+        private readonly DualMenuItem ActionClearUndoHistory = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Clear_Undo_History"), null, Keys.None);
+        private readonly DualMenuItem ActionFind = new DualMenuItem(LocalizationManager.GetText("Find"), LocalizationManager.GetText("Find"), IconType.Search, Keys.Control | Keys.F);
+        private readonly DualMenuItem ActionAbout = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("About"), IconType.NbtStudio, Keys.Shift | Keys.F1);
+        private readonly DualMenuItem ActionLanguage = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Language"), null, Keys.None);
+        private readonly DualMenuItem ActionChangeIcons = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Change_Icons"), IconType.Refresh, Keys.Control | Keys.I);
+        private readonly DualMenuItem ActionAddSnbt = DualMenuItem.SingleButton(LocalizationManager.GetText("Add_as_SNBT"), IconType.AddSnbt);
+        private readonly DualMenuItem ActionAddChunk = DualMenuItem.SingleButton(LocalizationManager.GetText("Add_Chunk"), IconType.Chunk);
+        private readonly DualMenuItem ActionUpdate = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Update"), null, Keys.None);
+        private readonly DualMenuItem ActionCheckUpdates = DualMenuItem.SingleMenuItem(LocalizationManager.GetText("Check_for_Updates"), null, Keys.Control | Keys.U);
         public MainForm(string[] args)
         {
             ClickedFiles = args;
@@ -121,6 +123,7 @@ namespace NbtStudio.UI
             ActionDelete.Click += (s, e) => Delete();
             ActionFind.Click += (s, e) => Find();
             ActionAbout.Click += (s, e) => About();
+            ActionLanguage.Click += (s, e) => Language();
             ActionChangeIcons.Click += (s, e) => ChangeIcons();
             ActionAddSnbt.Click += (s, e) => AddSnbt();
             ActionAddChunk.Click += (s, e) => AddChunk();
@@ -166,6 +169,7 @@ namespace NbtStudio.UI
             Tools.Items.Add(new ToolStripSeparator());
             ActionAddChunk.AddToToolStrip(Tools);
             ActionAbout.AddToMenuItem(MenuHelp);
+            ActionLanguage.AddToMenuItem(MenuHelp);
             ActionChangeIcons.AddToMenuItem(MenuHelp);
             ActionUpdate.Visible = false;
             ActionUpdate.AddToMenuStrip(MenuStrip);
@@ -240,10 +244,10 @@ namespace NbtStudio.UI
             {
                 if (x.Status == TaskStatus.Faulted)
                 {
-                    var window = new ExceptionWindow("Update check failed",
-                        "Failed to check for updates.",
-                        FailableFactory.Failure(x.Exception, "Check for updates"),
-                        "Would you like to go to the update page?\n" +
+                    var window = new ExceptionWindow(LocalizationManager.GetText("Update_check_failed"),
+                        LocalizationManager.GetText("Update_check_failed_Detail"),
+                        FailableFactory.Failure(x.Exception, LocalizationManager.GetText("Check_for_Updates")),
+                        LocalizationManager.GetText("Update_Page") +
                         "https://github.com/tryashtar/nbt-studio/releases",
                         ExceptionWindowButtons.OKCancel
                     );
@@ -255,10 +259,10 @@ namespace NbtStudio.UI
                 {
                     if (x.Result is null)
                     {
-                        if (MessageBox.Show("You already seem to have the latest update.\n" +
-                            "Would you like to go to the update page?\n\n" +
+                        if (MessageBox.Show(LocalizationManager.GetText("Latest_Update") +
+                            LocalizationManager.GetText("Update_Page") +
                             "https://github.com/tryashtar/nbt-studio/releases",
-                            "No update found", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            LocalizationManager.GetText("No_update_found"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                             IOUtils.OpenUrlInBrowser("https://github.com/tryashtar/nbt-studio/releases");
                     }
                     else
@@ -291,7 +295,7 @@ namespace NbtStudio.UI
 
         private void New()
         {
-            if (!ConfirmIfUnsaved("Create a new file anyway?"))
+            if (!ConfirmIfUnsaved(LocalizationManager.GetText("Create_New_File_Anyway")))
                 return;
             OpenFile(new NbtFile(), skip_confirm: true);
         }
@@ -303,7 +307,7 @@ namespace NbtStudio.UI
 
         private void NewRegion()
         {
-            if (!ConfirmIfUnsaved("Create a new file anyway?"))
+            if (!ConfirmIfUnsaved(LocalizationManager.GetText("Create_New_File_Anyway")))
                 return;
             OpenFile(RegionFile.EmptyRegion(), skip_confirm: true);
         }
@@ -334,7 +338,7 @@ namespace NbtStudio.UI
                     else
                     {
                         var error = FailableFactory.Aggregate(attempt1, attempt2);
-                        var window = new ExceptionWindow("Clipboard error", "Failed to parse SNBT from clipboard.", error);
+                        var window = new ExceptionWindow(LocalizationManager.GetText("Clipboard_error"),LocalizationManager.GetText("Clipboard_error_Detail"), error);
                         window.ShowDialog(this);
                     }
                 }
@@ -368,7 +372,7 @@ namespace NbtStudio.UI
         {
             using (var dialog = new OpenFileDialog
             {
-                Title = "Select NBT files",
+                Title = LocalizationManager.GetText("Select_NBT_files"),
                 RestoreDirectory = true,
                 Multiselect = true,
                 Filter = NbtUtil.OpenFilter()
@@ -383,7 +387,7 @@ namespace NbtStudio.UI
         {
             using (var dialog = new CommonOpenFileDialog
             {
-                Title = "Select a folder that contains NBT files",
+                Title = LocalizationManager.GetText("Select_NBT_folder"),
                 RestoreDirectory = true,
                 Multiselect = false,
                 IsFolderPicker = true
@@ -396,14 +400,14 @@ namespace NbtStudio.UI
 
         private void OpenFile()
         {
-            if (!ConfirmIfUnsaved("Open a new file anyway?"))
+            if (!ConfirmIfUnsaved(LocalizationManager.GetText("Open_New_File_Anyway")))
                 return;
             BrowseFileLike(x => OpenFiles(x, skip_confirm: true));
         }
 
         private void OpenFile(ISaveable file, bool skip_confirm = false)
         {
-            if (!skip_confirm && !ConfirmIfUnsaved("Open a new file anyway?"))
+            if (!skip_confirm && !ConfirmIfUnsaved(LocalizationManager.GetText("Open_New_File_Anyway")))
                 return;
             ViewModel = new NbtTreeModel(file);
         }
@@ -420,7 +424,7 @@ namespace NbtStudio.UI
 
         private void OpenFolder()
         {
-            if (!ConfirmIfUnsaved("Open a new folder anyway?"))
+            if (!ConfirmIfUnsaved(LocalizationManager.GetText("Open_New_Folder_Anyway")))
                 return;
             BrowseFolderLike(x => OpenFolder(x, skip_confirm: true));
         }
@@ -433,7 +437,7 @@ namespace NbtStudio.UI
         private void Discard(IEnumerable<INode> nodes)
         {
             var unsaved = nodes.Filter(x => x.Get<ISaveable>()).Where(x => x.HasUnsavedChanges);
-            if (!unsaved.Any() || MessageBox.Show($"You currently have unsaved changes.\n\nAre you sure you would like to discard the changes to these files?", "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (!unsaved.Any() || MessageBox.Show(LocalizationManager.GetText("Unsaved_Changes_Detail.1"), LocalizationManager.GetText("Unsaved_Changes"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 ViewModel.RemoveMany(nodes);
         }
 
@@ -441,7 +445,7 @@ namespace NbtStudio.UI
         {
             items = items.Where(x => x.CanRefresh);
             var unsaved = items.OfType<ISaveable>().Where(x => x.HasUnsavedChanges);
-            if (!unsaved.Any() || MessageBox.Show($"You currently have unsaved changes.\n\nAre you sure you would like to discard the changes to these files?", "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (!unsaved.Any() || MessageBox.Show(LocalizationManager.GetText("Unsaved_Changes_Detail.1"),  LocalizationManager.GetText("Unsaved_Changes"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 UndoHistory.StartBatchOperation();
                 var errors = new List<(IHavePath item, Exception exception)>();
@@ -460,7 +464,7 @@ namespace NbtStudio.UI
                 if (errors.Any())
                 {
                     var error = FailableFactory.AggregateFailure(errors.Select(x => x.exception).ToArray());
-                    string message = $"{StringUtils.Pluralize(errors.Count(), "file")} failed to refresh:\n\n";
+                    string message = LocalizationManager.GetText("Refresh_Failed", args: new Object[]{StringUtils.Pluralize(errors.Count(), "file")} );
                     message += String.Join("\n", errors.Select(x => x.item).Where(x => x is not null).Select(x => Path.GetFileName(x.Path)));
                     var window = new ExceptionWindow("Refresh error", message, error);
                     window.ShowDialog(this);
@@ -747,14 +751,14 @@ namespace NbtStudio.UI
                     var file = files.Single();
                     if (file.Path is null)
                         result = MessageBox.Show(
-                            $"Are you sure you want to remove this item?",
-                            $"Really delete this unsaved file?",
+                            LocalizationManager.GetText("Delete_Item_Confirmation"),
+                            LocalizationManager.GetText("Delete_Item_Confirmation_Detail.1"),
                             MessageBoxButtons.YesNo);
                     else
                         result = MessageBox.Show(
-                            $"Are you sure you want to delete this item?\n\n" +
-                            $"It will be sent to the recycle bin. This cannot be undone.",
-                            $"Really delete {file_nodes.Single().Description}?",
+                            LocalizationManager.GetText("Delete_Item_Confirmation") + "\n\n" + 
+                            LocalizationManager.GetText("Delete_Item_Confirmation_Detail.2"),
+                            LocalizationManager.GetText("Delete_Item_Confirmation_Detail.3", args: new Object[] { file_nodes.Single().Description }),
                             MessageBoxButtons.YesNo);
                 }
                 else
@@ -763,14 +767,14 @@ namespace NbtStudio.UI
                     var saved = files.Where(x => x.Path is not null);
                     if (!saved.Any())
                         result = MessageBox.Show(
-                            $"Are you sure you want to remove {ExtractNodeOperations.Description(file_nodes)}?",
-                            $"Really delete these items?",
+                            LocalizationManager.GetText("Delete_Items_Confirmation", args: new Object[] { ExtractNodeOperations.Description(file_nodes) }) ,
+                            LocalizationManager.GetText("Delete_Items_Confirmation_Detail.1"),
                             MessageBoxButtons.YesNo);
                     else
                         result = MessageBox.Show(
-                            $"Are you sure you want to delete {ExtractNodeOperations.Description(file_nodes)}?\n\n" +
-                            $"{StringUtils.Pluralize(saved.Count(), "item")} will be send to the recycle bin. This cannot be undone.",
-                            $"Really delete these items?",
+                            LocalizationManager.GetText("Delete_Items_Confirmation", args: new Object[] { ExtractNodeOperations.Description(file_nodes) }) + "\n\n" +
+                            LocalizationManager.GetText("Delete_Items_Confirmation_Detail.2", args: new Object[] { StringUtils.Pluralize(saved.Count(), "item") }),
+                            LocalizationManager.GetText("Delete_Items_Confirmation_Detail.1"),
                             MessageBoxButtons.YesNo);
                 }
                 if (result != DialogResult.Yes)
@@ -789,7 +793,7 @@ namespace NbtStudio.UI
             if (relevant.Any())
             {
                 var error = FailableFactory.AggregateFailure(relevant);
-                var window = new ExceptionWindow("Error while deleting", "An error occurred while deleting:", error);
+                var window = new ExceptionWindow(LocalizationManager.GetText("Error_while_deleting"), LocalizationManager.GetText("Error_while_deleting_Detail"), error);
                 window.ShowDialog(this);
             }
             UndoHistory.FinishBatchOperation(new DescriptionHolder("Delete {0}", nodes), false);
@@ -813,6 +817,17 @@ namespace NbtStudio.UI
             if (!AboutWindow.Visible)
                 AboutWindow.Show(this);
             AboutWindow.Focus();
+        }
+
+        private LanguageWindow LanguageWindow;
+
+        private void Language()
+        {
+            if (LanguageWindow is null || LanguageWindow.IsDisposed)
+                LanguageWindow = new LanguageWindow(IconSource);
+            if (!LanguageWindow.Visible)
+                LanguageWindow.Show(this);
+            LanguageWindow.Focus();
         }
 
         private IconSetWindow IconSetWindow;
@@ -888,7 +903,7 @@ namespace NbtStudio.UI
             foreach (var type in NbtUtil.NormalTagTypes())
             {
                 var button = DualMenuItem.SingleButton(
-                    hover: $"Add {NbtUtil.TagTypeName(type)} Tag",
+                    hover: LocalizationManager.GetText("Add_Tag.1", args: new Object[] { NbtUtil.TagTypeName(type) }),
                     icon: NbtUtil.TagIconType(type));
                 button.Click += (s, e) => AddTag(type);
                 buttons.Add(type, button);
@@ -903,7 +918,7 @@ namespace NbtStudio.UI
             var good = files.Where(x => !x.item.Failed);
             if (bad.Any())
             {
-                string message = $"{StringUtils.Pluralize(bad.Count(), "file")} failed to load:\n\n";
+                string message = LocalizationManager.GetText("Load_Failed", args: new Object[] { StringUtils.Pluralize(bad.Count(), "file") }) + ":\n\n";
                 message += String.Join("\n", bad.Select(x => Path.GetFileName(x.path)));
                 var fail = FailableFactory.Aggregate(bad.Select(x => x.item).ToArray());
                 var window = new ExceptionWindow("Load failure", message, fail);
@@ -919,7 +934,7 @@ namespace NbtStudio.UI
 
         private void Folder_FilesFailed(object sender, IEnumerable<(string path, IFailable<IFile> file)> bad)
         {
-            string message = $"{StringUtils.Pluralize(bad.Count(), "file")} failed to load:\n\n";
+            string message =LocalizationManager.GetText("Load_Failed", args: new Object[] { StringUtils.Pluralize(bad.Count(), "file") }) + ":\n\n";
             message += String.Join("\n", bad.Select(x => Path.GetFileName(x.path)));
             var fail = FailableFactory.Aggregate(bad.Select(x => x.file).ToArray());
             var window = new ExceptionWindow("Load failure", message, fail);
@@ -928,7 +943,7 @@ namespace NbtStudio.UI
 
         private void OpenFolder(string path, bool skip_confirm = false)
         {
-            if (!skip_confirm && !ConfirmIfUnsaved("Open a new folder anyway?"))
+            if (!skip_confirm && !ConfirmIfUnsaved(LocalizationManager.GetText("Open_New_Folder_Anyway")))
                 return;
             OpenPathsLike(new[] { path }, x => ViewModel = new NbtTreeModel(x));
         }
@@ -940,7 +955,7 @@ namespace NbtStudio.UI
 
         private void OpenFiles(IEnumerable<string> paths, bool skip_confirm = false)
         {
-            if (!skip_confirm && !ConfirmIfUnsaved("Open a new file anyway?"))
+            if (!skip_confirm && !ConfirmIfUnsaved(LocalizationManager.GetText("Open_New_File_Anyway")))
                 return;
             OpenPathsLike(paths, x => ViewModel = new NbtTreeModel(x));
         }
@@ -962,7 +977,7 @@ namespace NbtStudio.UI
         {
             if (!ViewModel.HasAnyUnsavedChanges)
                 return true;
-            return MessageBox.Show($"You currently have unsaved changes.\n\n{message}", "Unsaved Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+            return MessageBox.Show(LocalizationManager.GetText("Unsaved_Changes_Detail.2", args: new Object[] { message }), LocalizationManager.GetText("Unsaved_Changes"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
         }
 
         private void NbtTree_SelectionChanged(object sender, EventArgs e)
@@ -1098,42 +1113,42 @@ namespace NbtStudio.UI
             var file_items = new List<ToolStripItem>();
             var nbt_items = new List<ToolStripItem>();
             if (obj.Parent is ModelRootNode)
-                root_items.Add(new ToolStripMenuItem("&Discard", IconSource.GetImage(IconType.Delete).Image, Discard_Click));
+                root_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Delete"), IconSource.GetImage(IconType.Delete).Image, Discard_Click));
             if (e.Node.CanExpand)
             {
                 if (e.Node.IsExpanded)
-                    node_items.Add(new ToolStripMenuItem("&Collapse", null, Collapse_Click));
+                    node_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Collapse"), null, Collapse_Click));
                 else
-                    node_items.Add(new ToolStripMenuItem("&Expand All", null, ExpandAll_Click));
+                    node_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Expand_All"), null, ExpandAll_Click));
                 var children = NbtTree.AllChildren(e.Node);
                 if (children.All(x => x.IsSelected))
-                    node_items.Add(new ToolStripMenuItem("Dese&lect all Children", null, DeselectChildren_Click));
+                    node_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Deselect_all_Children"), null, DeselectChildren_Click));
                 else
-                    node_items.Add(new ToolStripMenuItem("Se&lect all Children", null, SelectChildren_Click));
+                    node_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Select_all_Children"), null, SelectChildren_Click));
             }
             var saveable = obj.Get<ISaveable>();
             if (saveable is not null && saveable.CanSave)
-                file_items.Add(new ToolStripMenuItem("&Save File", IconSource.GetImage(IconType.Save).Image, Save_Click));
+                file_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Save_File"), IconSource.GetImage(IconType.Save).Image, Save_Click));
             if (obj.Get<IExportable>() is not null)
-                file_items.Add(new ToolStripMenuItem("Save File &As", IconSource.GetImage(IconType.Save).Image, SaveAs_Click));
+                file_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Save_File_As"), IconSource.GetImage(IconType.Save).Image, SaveAs_Click));
             var refresh = obj.Get<IRefreshable>();
             if (refresh is not null && refresh.CanRefresh)
-                file_items.Add(new ToolStripMenuItem("&Refresh", IconSource.GetImage(IconType.Refresh).Image, Refresh_Click));
+                file_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Refresh"), IconSource.GetImage(IconType.Refresh).Image, Refresh_Click));
             var path = obj.Get<IHavePath>();
             if (path is not null && path.Path is not null)
-                file_items.Add(new ToolStripMenuItem("&Open in Explorer", IconSource.GetImage(IconType.OpenFile).Image, OpenInExplorer_Click));
+                file_items.Add(new ToolStripMenuItem(LocalizationManager.GetText("Open_in_Explorer"), IconSource.GetImage(IconType.OpenFile).Image, OpenInExplorer_Click));
             var container = obj.GetNbtTag() as NbtContainerTag;
             if (container is not null)
             {
                 var addable = NbtUtil.NormalTagTypes().Where(x => container.CanAdd(x));
                 bool single = ListUtils.ExactlyOne(addable);
-                var display = single ? (Func<NbtTagType, string>)(x => $"Add {NbtUtil.TagTypeName(x)} Tag") : (x => $"{NbtUtil.TagTypeName(x)} Tag");
+                var display = single ? (Func<NbtTagType, string>)(x => LocalizationManager.GetText("Add_Tag.1", args: new Object[] { NbtUtil.TagTypeName(x) })) : (x => LocalizationManager.GetText("Add_Tag.2", args: new Object[] { NbtUtil.TagTypeName(x) }));
                 var items = addable.Select(x => new ToolStripMenuItem(display(x), NbtUtil.TagTypeImage(IconSource, x).Image, (s, ea) => AddTag_Click(x))).ToArray();
                 if (single)
                     nbt_items.AddRange(items);
                 else
                 {
-                    var add = new ToolStripMenuItem("Add...");
+                    var add = new ToolStripMenuItem(LocalizationManager.GetText("Add"));
                     add.DropDownItems.AddRange(items);
                     nbt_items.Add(add);
                 }

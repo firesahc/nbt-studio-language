@@ -43,11 +43,11 @@ namespace NbtStudio.UI
         private void ShowTooltip(NameCheckResult result)
         {
             if (result == NameCheckResult.InvalidMissingName)
-                ShowTooltip("Missing Name", "You must specify a name for this tag", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("Missing_Name"), LocalizationManager.GetText("Missing_Name_Detail"), TimeSpan.FromSeconds(2));
             else if (result == NameCheckResult.InvalidHasName)
-                ShowTooltip("Name Disallowed", "This tag must not have a name", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("Illegal_Characters"), LocalizationManager.GetText("Illegal_Characters_Detail"), TimeSpan.FromSeconds(2));
             else if (result == NameCheckResult.InvalidDuplicateName)
-                ShowTooltip("Duplicate Name", "The compound already contains a tag with this name", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("File_Already_Exists"), LocalizationManager.GetText("File_Already_Exists_Detail"), TimeSpan.FromSeconds(2));
         }
 
         public void SetTags(NbtTag tag, NbtContainerTag parent)

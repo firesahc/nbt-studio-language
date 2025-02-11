@@ -37,9 +37,9 @@ namespace NbtStudio.UI
                 CheckJson.Checked = extension == ".json";
             }
             SetEnables();
-            Tooltips.SetToolTip(CheckLittleEndian, "Required for all Bedrock Edition files");
-            Tooltips.SetToolTip(CheckBedrockHeader, "Required for Bedrock Edition level.dat files");
-            Tooltips.SetToolTip(CheckJson, "Quotes all keys, removes type suffixes and list indicators");
+            Tooltips.SetToolTip(CheckLittleEndian, LocalizationManager.GetText("CheckLittleEndian"));
+            Tooltips.SetToolTip(CheckBedrockHeader, LocalizationManager.GetText("CheckBedrockHeader"));
+            Tooltips.SetToolTip(CheckJson, LocalizationManager.GetText("CheckJson"));
         }
 
         public ExportSettings GetSettings()

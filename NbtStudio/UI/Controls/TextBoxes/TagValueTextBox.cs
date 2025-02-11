@@ -42,14 +42,14 @@ namespace NbtStudio.UI
         private void ShowTooltip(ValueCheckResult result)
         {
             if (result == ValueCheckResult.InvalidFormat)
-                ShowTooltip("Invalid Format", $"The value is formatted incorrectly for a {NbtUtil.TagTypeName(NbtTag.TagType).ToLower()}", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("Invalid_Format"),LocalizationManager.GetText("Invalid_Format_Detail", args: new Object[] { NbtUtil.TagTypeName(NbtTag.TagType).ToLower()}), TimeSpan.FromSeconds(2));
             else if (result == ValueCheckResult.InvalidOutOfRange)
             {
                 var (min, max) = NbtUtil.MinMaxFor(NbtTag.TagType);
-                ShowTooltip("Out of Range", $"The value for {NbtUtil.TagTypeName(NbtTag.TagType).ToLower()}s must be between {min} and {max}", TimeSpan.FromSeconds(4));
+                ShowTooltip(LocalizationManager.GetText("Out_of_Range"),LocalizationManager.GetText("Out_of_Range_Detail", args: new Object[] { NbtUtil.TagTypeName(NbtTag.TagType).ToLower(),min,max}), TimeSpan.FromSeconds(4));
             }
             else if (result == ValueCheckResult.InvalidUnknown)
-                ShowTooltip("Unknown Error", "There was an unknown error attempting to parse the value", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("Unknown_Error"),LocalizationManager.GetText("Unknown_Error_Detail"), TimeSpan.FromSeconds(2));
         }
 
         public void SetTags(NbtTag tag, NbtContainerTag parent, bool fill_current_value)

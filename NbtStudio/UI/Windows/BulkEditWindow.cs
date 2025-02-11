@@ -28,17 +28,17 @@ namespace NbtStudio.UI
 
             if (purpose == BulkEditPurpose.Rename)
             {
-                this.Text = $"Rename {StringUtils.Pluralize(tags.Count, "tag")}";
+                this.Text = LocalizationManager.GetText("Rename_Detail", args: new Object[] { StringUtils.Pluralize(tags.Count, "tag")});
                 this.Icon = source.GetImage(IconType.Rename).Icon;
-                CurrentColumn.Text = "Current Name";
-                NewColumn.Text = "New Name";
+                CurrentColumn.Text = LocalizationManager.GetText("Current_Name");
+                NewColumn.Text = LocalizationManager.GetText("New_Name");
             }
             else
             {
-                this.Text = $"Edit {StringUtils.Pluralize(tags.Count, "tag")}";
+                this.Text = LocalizationManager.GetText("Edit_Detail", args: new Object[] { StringUtils.Pluralize(tags.Count, "tag") });
                 this.Icon = source.GetImage(IconType.Edit).Icon;
-                CurrentColumn.Text = "Current Value";
-                NewColumn.Text = "New Value";
+                CurrentColumn.Text =  LocalizationManager.GetText("Current_Value");
+                NewColumn.Text = LocalizationManager.GetText("New_Value");
             }
         }
 

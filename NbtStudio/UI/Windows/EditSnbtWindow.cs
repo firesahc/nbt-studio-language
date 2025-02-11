@@ -60,12 +60,12 @@ namespace NbtStudio.UI
             if (required is null)
             {
                 this.Icon = source.GetImage(IconType.AddSnbt).Icon;
-                this.Text = "Create Tag as SNBT";
+                this.Text = LocalizationManager.GetText("Create_Tag_as_SNBT");
             }
             else
             {
                 this.Icon = NbtUtil.TagTypeImage(source, required.Value).Icon;
-                this.Text = tag is null ? $"Create {NbtUtil.TagTypeName(required.Value)} Tag as SNBT" : $"Edit {NbtUtil.TagTypeName(required.Value)} Tag as SNBT";
+                this.Text = tag is null ? LocalizationManager.GetText("Create_Tag_as_SNBT_Detail", args: new Object[] { NbtUtil.TagTypeName(required.Value) }) : LocalizationManager.GetText("Edit_Tag_as_SNBT_Detail", args: new Object[] { NbtUtil.TagTypeName(required.Value) });
             }
             if (SettingName && purpose != EditPurpose.EditValue)
             {
@@ -89,7 +89,7 @@ namespace NbtStudio.UI
         public static bool ModifyTag(IconSource source, NbtTag existing, EditPurpose purpose)
         {
             if (purpose == EditPurpose.Create)
-                throw new ArgumentException("Use CreateTag to create tags");
+                throw new ArgumentException(LocalizationManager.GetText("Use_CreateTag"));
             var parent = existing.Parent;
             bool has_name = parent is NbtCompound;
             var window = new EditSnbtWindow(source, existing, parent, has_name, purpose);

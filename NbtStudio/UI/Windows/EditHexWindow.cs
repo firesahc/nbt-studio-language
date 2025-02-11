@@ -48,9 +48,9 @@ namespace NbtStudio.UI
                 this.Icon = NbtUtil.TagTypeImage(source, tag.TagType).Icon;
             }
             if (purpose == EditPurpose.Create)
-                this.Text = $"Create {tagname} Tag";
+                this.Text = LocalizationManager.GetText("Create_Tag_Detail", args: new Object[] { tagname });
             else if (purpose == EditPurpose.EditValue || purpose == EditPurpose.Rename)
-                this.Text = $"Edit {tagname} Tag";
+                this.Text = LocalizationManager.GetText("Edit_Tag_Detail", args: new Object[] { tagname });
 
             if (SettingName && purpose != EditPurpose.EditValue)
             {
@@ -78,7 +78,7 @@ namespace NbtStudio.UI
         public static bool ModifyTag(IconSource source, NbtTag existing, EditPurpose purpose)
         {
             if (purpose == EditPurpose.Create)
-                throw new ArgumentException("Use CreateTag to create tags");
+                throw new ArgumentException(LocalizationManager.GetText("Use_CreateTag"));
             var parent = existing.Parent;
             bool has_name = parent is NbtCompound;
 
@@ -122,9 +122,9 @@ namespace NbtStudio.UI
             long selected_byte = HexBox.SelectionStart;
             long selected_byte2 = HexBox.SelectionStart + HexBox.SelectionLength;
             if (HexBox.SelectionLength > 1)
-                CursorLabel.Text = $"Elements {selected_byte / Provider.BytesPerValue} - {selected_byte2 / Provider.BytesPerValue}";
+                CursorLabel.Text = LocalizationManager.GetText("Elements", args: new Object[] { selected_byte / Provider.BytesPerValue, selected_byte2 / Provider.BytesPerValue });
             else
-                CursorLabel.Text = $"Element {selected_byte / Provider.BytesPerValue}";
+                CursorLabel.Text = LocalizationManager.GetText("Element", args: new Object[] { selected_byte / Provider.BytesPerValue });
         }
 
         private void HexBox_CurrentLineChanged(object sender, EventArgs e)
@@ -180,7 +180,7 @@ namespace NbtStudio.UI
                 return String.Join(" ", DataUtils.ToIntArray(bytes));
             if (size == sizeof(long))
                 return String.Join(" ", DataUtils.ToLongArray(bytes));
-            throw new ArgumentException($"Can't convert bytes to a numeric type with size {size}");
+            throw new ArgumentException(LocalizationManager.GetText("EditHex_Convert", args: new Object[]{size} ));
         }
 
         private byte[] ConvertFromText(string text, int size)
@@ -194,7 +194,7 @@ namespace NbtStudio.UI
                 return DataUtils.ToByteArray(vals.Select(ParseInt).ToArray());
             if (size == sizeof(long))
                 return DataUtils.ToByteArray(vals.Select(ParseLong).ToArray());
-            throw new ArgumentException($"Can't convert bytes to a numeric type with size {size}");
+            throw new ArgumentException(LocalizationManager.GetText("EditHex_Convert", args: new Object[] { size }));
         }
 
         private sbyte ParseByte(string text)

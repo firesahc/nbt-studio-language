@@ -53,7 +53,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.ButtonCancel.TabIndex = 2;
-            this.ButtonCancel.Text = "Cancel";
+            this.ButtonCancel.Text = LocalizationManager.GetText("Cancel");
             this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // ButtonOk
@@ -64,7 +64,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(75, 23);
             this.ButtonOk.TabIndex = 1;
-            this.ButtonOk.Text = "OK";
+            this.ButtonOk.Text = LocalizationManager.GetText("OK");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -86,7 +86,7 @@
             this.Name = "RenameFileWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Rename File";
+            this.Text = LocalizationManager.GetText("Rename_File");
             this.Load += new System.EventHandler(this.RenameFileWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

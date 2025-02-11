@@ -57,7 +57,7 @@ namespace NbtStudio.UI
                 ExtraInfoPanel.Height = 300;
                 this.Width += 130 + ButtonCopy.Width;
                 ExtraInfoPanel.Visible = true;
-                ButtonDetails.Text = "Less Details";
+                ButtonDetails.Text = LocalizationManager.GetText("Less_Details");
                 ButtonCopy.Visible = true;
             }
             else
@@ -66,7 +66,7 @@ namespace NbtStudio.UI
                 ExtraInfoPanel.Height = 300;
                 this.Height -= ExtraInfoPanel.Height;
                 this.Width -= 130 + ButtonCopy.Width;
-                ButtonDetails.Text = "More Details";
+                ButtonDetails.Text = LocalizationManager.GetText("More_Details");
                 ButtonCopy.Visible = false;
             }
         }

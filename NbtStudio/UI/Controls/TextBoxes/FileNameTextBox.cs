@@ -43,11 +43,11 @@ namespace NbtStudio.UI
         private void ShowTooltip(NameCheckResult result)
         {
             if (result == NameCheckResult.InvalidMissingName || result == NameCheckResult.InvalidWhitespace)
-                ShowTooltip("Missing Name", "You must specify a name for this file", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("Missing_Name"),LocalizationManager.GetText("Missing_Name_Detail"), TimeSpan.FromSeconds(2));
             else if (result == NameCheckResult.InvalidCharacters)
-                ShowTooltip("Illegal Characters", "The name specified contains disallowed characters", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("Illegal_Characters"),LocalizationManager.GetText("Illegal_Characters_Detail") , TimeSpan.FromSeconds(2));
             else if (result == NameCheckResult.InvalidAlreadyTaken)
-                ShowTooltip("File Already Exists", "A file with this name already exists", TimeSpan.FromSeconds(2));
+                ShowTooltip(LocalizationManager.GetText("File_Already_Exists"),LocalizationManager.GetText("File_Already_Exists_Detail") , TimeSpan.FromSeconds(2));
         }
 
         public void SetItem(IHavePath item)

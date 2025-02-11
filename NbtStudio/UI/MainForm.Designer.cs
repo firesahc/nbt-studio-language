@@ -63,27 +63,27 @@
             // 
             this.MenuFile.Name = "MenuFile";
             this.MenuFile.Size = new System.Drawing.Size(37, 20);
-            this.MenuFile.Text = "&File";
+            this.MenuFile.Text = LocalizationManager.GetText("MenuFile");
             this.MenuFile.DropDownOpening += new System.EventHandler(this.MenuFile_DropDownOpening);
             // 
             // MenuEdit
             // 
             this.MenuEdit.Name = "MenuEdit";
             this.MenuEdit.Size = new System.Drawing.Size(39, 20);
-            this.MenuEdit.Text = "&Edit";
+            this.MenuEdit.Text = LocalizationManager.GetText("MenuEdit");
             this.MenuEdit.DropDownOpening += new System.EventHandler(this.MenuEdit_DropDownOpening);
             // 
             // MenuSearch
             // 
             this.MenuSearch.Name = "MenuSearch";
             this.MenuSearch.Size = new System.Drawing.Size(54, 20);
-            this.MenuSearch.Text = "&Search";
+            this.MenuSearch.Text = LocalizationManager.GetText("MenuSearch");
             // 
             // MenuHelp
             // 
             this.MenuHelp.Name = "MenuHelp";
             this.MenuHelp.Size = new System.Drawing.Size(44, 20);
-            this.MenuHelp.Text = "&Help";
+            this.MenuHelp.Text = LocalizationManager.GetText("MenuHelp");
             // 
             // NbtTree
             // 
