@@ -63,6 +63,7 @@
 "Create_New_File_Anyway" : "是否仍要创建新文件？",
 "Open_New_File_Anyway" : "是否仍要打开新文件？",
 "Open_New_Folder_Anyway" : "是否仍要打开新文件夹？",
+"Exit_Anyway": "是否仍要退出？",
 
 "Clipboard_error" : "剪贴板错误",
 	"Clipboard_error_Detail" : "无法从剪贴板解析SNBT。",
