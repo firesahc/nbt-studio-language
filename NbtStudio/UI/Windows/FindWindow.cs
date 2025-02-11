@@ -98,14 +98,14 @@ namespace NbtStudio.UI
                 ProgressBar.Visible = false;
                 if (x.Result is null || !x.Result.Any())
                 {
-                    FoundResultsLabel.Text = "No results found";
+                    FoundResultsLabel.Text = LocalizationManager.GetText("No_Results_Found");
                     FoundResultsLabel.Visible = true;
                 }
                 else
                 {
                     if (x.Result.CountGreaterThan(1))
                     {
-                        FoundResultsLabel.Text = $"Found {x.Result.Count()} matching results";
+                        FoundResultsLabel.Text = LocalizationManager.GetText("Found_Amount", args: new Object[]{x.Result.Count()}); 
                         FoundResultsLabel.Visible = true;
                     }
                     SearchingView.ClearSelection();

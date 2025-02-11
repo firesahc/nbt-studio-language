@@ -47,7 +47,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.ButtonCancel.TabIndex = 7;
-            this.ButtonCancel.Text = "Cancel";
+            this.ButtonCancel.Text = LocalizationManager.GetText("Cancel");
             this.ButtonCancel.UseVisualStyleBackColor = true;
             this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
@@ -59,7 +59,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(75, 23);
             this.ButtonOk.TabIndex = 6;
-            this.ButtonOk.Text = "Update";
+            this.ButtonOk.Text = LocalizationManager.GetText("Update");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -85,7 +85,7 @@
             this.CurrentVersionLabel.Name = "CurrentVersionLabel";
             this.CurrentVersionLabel.Size = new System.Drawing.Size(111, 17);
             this.CurrentVersionLabel.TabIndex = 0;
-            this.CurrentVersionLabel.Text = "Current Version:";
+            this.CurrentVersionLabel.Text = LocalizationManager.GetText("Current_Version") + ":";   
             // 
             // AvailableVersionLabel
             // 
@@ -95,7 +95,7 @@
             this.AvailableVersionLabel.Name = "AvailableVersionLabel";
             this.AvailableVersionLabel.Size = new System.Drawing.Size(121, 17);
             this.AvailableVersionLabel.TabIndex = 2;
-            this.AvailableVersionLabel.Text = "Available Version:";
+            this.AvailableVersionLabel.Text = LocalizationManager.GetText("Available_Version") + ":";
             // 
             // ChangelogLabel
             // 
@@ -105,7 +105,7 @@
             this.ChangelogLabel.Name = "ChangelogLabel";
             this.ChangelogLabel.Size = new System.Drawing.Size(76, 17);
             this.ChangelogLabel.TabIndex = 4;
-            this.ChangelogLabel.Text = "Changelog";
+            this.ChangelogLabel.Text = LocalizationManager.GetText("Changelog") + ":";
             // 
             // CurrentVersionValue
             // 

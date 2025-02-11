@@ -45,7 +45,7 @@ namespace NbtStudio.UI
             }
             catch (Exception ex)
             {
-                var window = new ExceptionWindow("Update error", "Failed to update the application.", FailableFactory.Failure(ex, "Updating"));
+                var window = new ExceptionWindow(LocalizationManager.GetText("Update_error"), LocalizationManager.GetText("Update_error_Detail"), FailableFactory.Failure(ex, "Updating"));
                 window.ShowDialog(this);
                 return false;
             }
