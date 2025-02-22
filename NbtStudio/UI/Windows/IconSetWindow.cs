@@ -124,7 +124,7 @@ namespace NbtStudio.UI
 
         public static void ShowImportFailed(string path, IFailable import, IWin32Window owner)
         {
-            var window = new ExceptionWindow(LocalizationManager.GetText("Failed_load_icons"),LocalizationManager.GetText("Failed_load_icons_Detail"), import);
+            var window = new ExceptionWindow(LocalizationManager.GetText("Failed_load_icons"),LocalizationManager.GetText("Failed_load_icons_Detail", args: new Object[] { path }), import);
             window.ShowDialog(owner);
         }
 

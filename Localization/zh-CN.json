@@ -145,7 +145,7 @@
 "Chunk_Already_Present" : "区块已经存在",
 	"Chunk_Already_Present_Detail" : "在这些坐标处的区域中已经存在区块",
 "Out_of_Bounds" : "超出边界",
-	"Out_of_Bounds_Detail" : "区块坐标必须介于0和｛0｝之间",
+	"Out_of_Bounds_Detail" : "区块坐标必须介于0和 {0} 之间",
 
 
 //BulkEditWindow.cs
@@ -201,7 +201,7 @@
 
 //FindWindow.cs
 "No_Results_Found" : "未找到结果",
-"Found_Amount" : "找到｛0｝个匹配的结果",
+"Found_Amount" : "找到 {0} 个匹配的结果",
 "Find_Next" : "查找下一个",
 "Find_Previous" : "查找上一个",
 "Find_All" : "查找全部",
@@ -210,7 +210,7 @@
 //IconSetWindow.cs
 "Icon_ZIP" : "选择自定义图标ZIP文件",
 "Failed_load_icons" : "无法加载图标",
-	"Failed_load_icons_Detail" : "无法加载此处的自定义图标源。",
+	"Failed_load_icons_Detail" : "无法加载 {0} 处的自定义图标源。",
 "Loading_icons" : "加载图标",
 "Select_Icon_Set" : "选择图标集",
 
