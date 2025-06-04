@@ -70,7 +70,7 @@ namespace NbtStudio
         public static List<GitHubVersion> GetAllVersions(WebClient client)
         {
             var versions = new List<GitHubVersion>();
-            var uri = new Uri("https://api.github.com/repos/tryashtar/nbt-studio/releases");
+            var uri = new Uri("https://api.github.com/repos/firesahc/nbt-studio-language/releases");
             string data = client.DownloadString(uri);
             var releases = JArray.Parse(data);
             foreach (JObject item in releases)
