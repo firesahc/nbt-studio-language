@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System;
 using NbtStudio.Properties;
 using NbtStudio;
+using System.Linq;
 
 namespace NBTStudio
 {
@@ -45,15 +46,15 @@ namespace NBTStudio
             }
 
             // 设置当前选中项
-            var currentIndex = listLanguages.FindString(LocalizationManager.CurrentLanguage);
+            var currentIndex = listLanguages.FindString(LocalizationManager._currentLanguage.Keys.ToList().FirstOrDefault());
             if (currentIndex >= 0) listLanguages.SelectedIndex = currentIndex;
         }
 
-        private void btnConfirm_Click(object sender, EventArgs e)
+        private void BtnConfirm_Click(object sender, EventArgs e)
         {
             if (listLanguages.SelectedItem is LanguageItem item)
             {
-                if (LocalizationManager.LoadLanguage(item.Code))
+                if (LocalizationManager.ReadLanguage(item.Code))
                 {
                     var result = MessageBox.Show(
                         LocalizationManager.GetText("Restart_Required_Detail"),
@@ -72,7 +73,7 @@ namespace NBTStudio
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
