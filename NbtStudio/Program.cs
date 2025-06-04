@@ -16,6 +16,13 @@ namespace NbtStudio
         [STAThread]
         static void Main(string[] args)
         {
+            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Localization")))
+            {
+                InitializeLanguage initializeLanguage = new();
+                initializeLanguage.InitializeLanguageFiles();
+            }
+            LocalizationManager.LoadLanguage();
+
             if (Environment.OSVersion.Version.Major >= 6)
                 SetProcessDPIAware();
             Application.EnableVisualStyles();
