@@ -212,6 +212,13 @@ namespace NbtStudio.UI
             }
             SetIconSource(IconSourceRegistry.FromID(Properties.Settings.Default.IconSet));
 
+            if (!Directory.Exists(Path.Combine(Application.StartupPath, "Localization")))
+            {
+                InitializeLanguage initializeLanguage = new();
+                initializeLanguage.InitializeLanguageFiles();
+            }
+            LocalizationManager.LoadLanguage();
+
             UpdateChecker = new Task<AvailableUpdate>(() => Updater.CheckForUpdates());
             UpdateChecker.Start();
             UpdateChecker.ContinueWith(x =>

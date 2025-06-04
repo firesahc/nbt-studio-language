@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System;
+using NbtStudio;
 
 namespace NBTStudio
 {
@@ -49,7 +50,7 @@ namespace NBTStudio
             btnConfirm.TabIndex = 1;
             btnConfirm.Text = LocalizationManager.GetText("OK");
             btnConfirm.UseVisualStyleBackColor = true;
-            btnConfirm.Click += btnConfirm_Click;
+            btnConfirm.Click += BtnConfirm_Click;
             // 
             // btnCancel
             // 
@@ -60,7 +61,7 @@ namespace NBTStudio
             btnCancel.TabIndex = 2;
             btnCancel.Text = LocalizationManager.GetText("Cancel");
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += btnCancel_Click;
+            btnCancel.Click += BtnCancel_Click;
             // 
             // LanguageWindow
             // 
