@@ -157,9 +157,9 @@ namespace NbtStudio
         }
     }
 
-    public class InitializeLanguage{   
+    public static class InitializeLanguage{   
         // ÃÌº”ƒ¨»œ”Ô—‘≈‰÷√
-        private readonly Dictionary<string, Dictionary<string, string>> DefaultLanguages = new()
+        private static readonly Dictionary<string, Dictionary<string, string>> DefaultLanguages = new()
         {
             {
                 "en-US", new Dictionary<string, string>
@@ -181,7 +181,7 @@ namespace NbtStudio
             }
         };
 
-        public void InitializeLanguageFiles()
+        public static void InitializeLanguageFiles()
         {
             try
             {
@@ -211,7 +211,7 @@ namespace NbtStudio
             }
         }
 
-        private void CreateLanguageFile(string path, Dictionary<string, string> defaultContent)
+        private static void CreateLanguageFile(string path, Dictionary<string, string> defaultContent)
         {
             try
             {
