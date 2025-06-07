@@ -78,7 +78,12 @@ namespace NBTStudio
             Name = "LanguageWindow";
             StartPosition = FormStartPosition.CenterParent;
             Text = LocalizationManager.GetText("Select_Language");
-            Load += LanguageWindow_Load;
+            // 在运行时设置文本
+            Load += (sender, e) => {
+                this.Text = LocalizationManager.GetText("Select_Language");
+                btnConfirm.Text = LocalizationManager.GetText("OK");
+                btnCancel.Text = LocalizationManager.GetText("Cancel");
+            };
             ResumeLayout(false);
         }
 

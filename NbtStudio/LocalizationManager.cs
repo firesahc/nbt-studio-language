@@ -5,93 +5,142 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Diagnostics;
 using System.Collections.Concurrent;
-using NbtStudio.Properties;
 using System.Collections.Generic;
+using System.Linq;
+using NbtStudio.Properties;
 
 namespace NbtStudio
 {
     public static class LocalizationManager
     {
-        public static ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _currentLanguage = new();
         private static ConcurrentDictionary<string, string> _currentStrings = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _languageCache = new();
         private static readonly object _syncLock = new();
+        private static readonly string _localizationDir = Path.Combine(Application.StartupPath, "Localization");
 
-        public static void LoadLanguage()
+        static LocalizationManager()
         {
-            var savedLang = Settings.Default.Language ?? "en-US";
-            if (ReadLanguage(savedLang))
-            {
-                _currentLanguage[savedLang] = _currentStrings;
-            }
-            else
-            {
-                ReadLanguage("en-US");
-                _currentLanguage["en-US"] = _currentStrings;
-            }
-                
+            EnsureLocalizationDirectory();
+            LoadLanguage();
         }
 
-        public static bool ReadLanguage(string langCode)
+        private static void EnsureLocalizationDirectory()
         {
-            lock (_syncLock)
+            try
+            {
+                if (!Directory.Exists(_localizationDir))
+                {
+                    Directory.CreateDirectory(_localizationDir);
+                    CreateDefaultLanguageFiles();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"初始化本地化目录失败: {ex.Message}");
+            }
+        }
+
+        private static void CreateDefaultLanguageFiles()
+        {
+            var defaultLanguages = new Dictionary<string, Dictionary<string, string>>
+            {
+                ["en-US"] = new()
+                {
+                    {"MenuFile", "File"},
+                    {"MenuEdit", "Edit"},
+                    {"MenuSearch", "Find"},
+                    {"MenuHelp", "Help"},
+                },
+                ["zh-CN"] = new()
+                {
+                    {"MenuFile", "文件"},
+                    {"MenuEdit", "编辑"},
+                    {"MenuSearch", "查找"},
+                    {"MenuHelp", "帮助"},
+                }
+            };
+
+            foreach (var (langCode, translations) in defaultLanguages)
             {
                 try
                 {
-                    var basePath = Path.Combine(Application.StartupPath, "Localization");
-                    var fullPath = Path.GetFullPath(Path.Combine(basePath, $"{langCode}.json"));
-
-                    // 验证路径安全性
-                    if (!fullPath.StartsWith(basePath, StringComparison.OrdinalIgnoreCase))
+                    var filePath = Path.Combine(_localizationDir, $"{langCode}.json");
+                    if (!File.Exists(filePath))
                     {
-                        ShowError("无效的语言文件路径");
+                        File.WriteAllText(
+                            filePath,
+                            JsonConvert.SerializeObject(translations, Formatting.Indented),
+                            Encoding.UTF8
+                        );
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"创建默认语言文件失败 ({langCode}): {ex.Message}");
+                }
+            }
+        }
+
+        public static void LoadLanguage(string langCode = null)
+        {
+            langCode ??= Settings.Default.Language ?? "en-US";
+            if (!TryLoadLanguage(langCode) && !TryLoadLanguage("en-US"))
+            {
+                _currentStrings.Clear();
+                Debug.WriteLine("无法加载任何语言文件");
+            }
+        }
+
+        public static bool TryLoadLanguage(string langCode)
+        {
+            lock (_syncLock)
+            {
+                // 尝试从缓存获取
+                if (_languageCache.TryGetValue(langCode, out var cached))
+                {
+                    _currentStrings = cached;
+                    return true;
+                }
+
+                try
+                {
+                    var filePath = Path.Combine(_localizationDir, $"{langCode}.json");
+
+                    // 路径安全检查
+                    if (!filePath.StartsWith(_localizationDir, StringComparison.OrdinalIgnoreCase) ||
+                        !File.Exists(filePath))
+                    {
                         return false;
                     }
 
-                    if (!File.Exists(fullPath))
-                    {
-                        ShowError($"语言文件 {langCode}.json 未找到");
-                        return false;
-                    }
-
-                    string json;
-                    using (var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    using (var reader = new StreamReader(stream, Encoding.UTF8))
-                    {
-                        json = reader.ReadToEnd();
-                    }
-
+                    var json = File.ReadAllText(filePath, Encoding.UTF8);
                     if (string.IsNullOrWhiteSpace(json))
                     {
-                        ShowError($"语言文件为空: {langCode}.json");
+                        Debug.WriteLine($"语言文件为空: {langCode}");
                         return false;
                     }
 
-                    // 安全反序列化设置
                     var settings = new JsonSerializerSettings
                     {
                         MissingMemberHandling = MissingMemberHandling.Ignore,
                         NullValueHandling = NullValueHandling.Ignore,
-                        MaxDepth = 10
+                        MaxDepth = 10,
+                        Error = (_, args) => args.ErrorContext.Handled = true
                     };
 
-                    var newStrings = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(json, settings);
-                    _currentStrings = new ConcurrentDictionary<string, string>(newStrings, StringComparer.OrdinalIgnoreCase);
+                    var strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(json, settings);
+                    var concurrentDict = new ConcurrentDictionary<string, string>(
+                        strings ?? new Dictionary<string, string>(),
+                        StringComparer.OrdinalIgnoreCase
+                    );
 
+                    _languageCache[langCode] = concurrentDict;
+                    _currentStrings = concurrentDict;
                     return true;
                 }
-                catch (JsonException ex)
+                catch (Exception ex) when (ex is JsonException || ex is IOException)
                 {
-                    ShowError($"JSON解析错误: {ex.Message}", "格式错误");
-                    return false;
-                }
-                catch (IOException ex)
-                {
-                    ShowError($"文件访问错误: {ex.Message}", "IO错误");
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    ShowError($"加载语言失败: {ex.GetType().Name} - {ex.Message}");
+                    Debug.WriteLine($"加载语言失败 ({langCode}): {ex.Message}");
                     return false;
                 }
             }
@@ -105,123 +154,35 @@ namespace NbtStudio
                 return "[INVALID_KEY]";
             }
 
-            // 获取原始文本
-            if (!TryGetLocalizedText(key, out var text, defaultValue))
+            string text = defaultValue ?? key;
+
+            // 尝试获取翻译
+            if (!_currentStrings.TryGetValue(key, out var translation))
             {
                 Debug.WriteLine($"本地化键缺失: {key}");
-                text = defaultValue ?? key;
+            }
+            else if (!string.IsNullOrWhiteSpace(translation))
+            {
+                text = translation;
             }
 
-            // 安全格式化参数
-            return FormatText(text, args, key);
+            // 安全格式化
+            return FormatSafe(text, args, key);
         }
 
-        private static bool TryGetLocalizedText(string key, out string text, string defaultValue)
+        private static string FormatSafe(string format, object[] args, string key)
         {
-            if (_currentStrings.TryGetValue(key, out text)) return true;
-
-            text = defaultValue;
-            return false;
-        }
-
-        private static string FormatText(string text, object[] args, string key)
-        {
-            if (args == null || args.Length == 0) return text;
+            if (args is null || args.Length == 0)
+                return format;
 
             try
             {
-                return string.Format(text, args);
+                return string.Format(format, args);
             }
             catch (FormatException ex)
             {
                 Debug.WriteLine($"格式化失败: {key} - {ex.Message}");
                 return $"[FORMAT_ERROR:{key}]";
-            }
-            catch (ArgumentNullException)
-            {
-                Debug.WriteLine($"空参数异常: {key}");
-                return $"[NULL_ARGUMENT:{key}]";
-            }
-        }
-
-        private static void ShowError(string message, string title = "错误")
-        {
-            try
-            {
-                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"错误显示失败: {ex.Message}");
-            }
-        }
-    }
-
-    public static class InitializeLanguage{   
-        // 添加默认语言配置
-        private static readonly Dictionary<string, Dictionary<string, string>> DefaultLanguages = new()
-        {
-            {
-                "en-US", new Dictionary<string, string>
-                {
-                    {"MenuFile", "File"},
-                    {"MenuEdit", "Edit"},
-                    {"MenuSearch", "Find"},
-                    {"MenuHelp", "Help"},
-                }
-            },
-            {
-                "zh-CN", new Dictionary<string, string>
-                {
-                    {"MenuFile", "文件"},
-                    {"MenuEdit", "编辑"},
-                    {"MenuSearch", "查找"},
-                    {"MenuHelp", "帮助"},
-                }
-            }
-        };
-
-        public static void InitializeLanguageFiles()
-        {
-            try
-            {
-                var localizationDir = Path.Combine(Application.StartupPath, "Localization");
-
-                // 创建文件夹（如果不存在）
-                if (!Directory.Exists(localizationDir))
-                {
-                    Directory.CreateDirectory(localizationDir);
-                    Debug.WriteLine($"已创建本地化目录：{localizationDir}");
-
-                    // 创建默认语言文件
-                    foreach (var lang in DefaultLanguages)
-                    {
-                        var filePath = Path.Combine(localizationDir, $"{lang.Key}.json");
-
-                        if (!File.Exists(filePath))
-                        {
-                            CreateLanguageFile(filePath, lang.Value);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"初始化本地化文件失败: {ex.Message}");
-            }
-        }
-
-        private static void CreateLanguageFile(string path, Dictionary<string, string> defaultContent)
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(defaultContent, Formatting.Indented);
-                File.WriteAllText(path, json, Encoding.UTF8);
-                Debug.WriteLine($"已创建默认语言文件： {Path.GetFileName(path)}");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"创建语言文件失败 {path}: {ex.Message}");
             }
         }
     }

@@ -1,86 +1,106 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System;
 using NbtStudio.Properties;
-using NbtStudio;
 using System.Linq;
+using NbtStudio;
 
 namespace NBTStudio
 {
     public partial class LanguageWindow : Form
     {
+        private static readonly Dictionary<string, string> LanguageDisplayNames = new()
+        {
+            ["en-US"] = "English",
+            ["zh-CN"] = "简体中文"
+            // 添加更多语言映射...
+        };
+
         public LanguageWindow(IconSource source)
         {
             InitializeComponent();
             this.Icon = source.GetImage(IconType.NbtStudio).Icon;
+            this.Text = LocalizationManager.GetText("LanguageWindow_Title");
         }
 
-        private void LanguageWindow_Load(object sender, EventArgs e)
+        protected override void OnLoad(System.EventArgs e)
         {
+            base.OnLoad(e);
             LoadAvailableLanguages();
-            this.Text = LocalizationManager.GetText("LanguageWindow_Title");
         }
 
         private void LoadAvailableLanguages()
         {
             listLanguages.Items.Clear();
 
-            var langDir = Path.Combine(Application.StartupPath, "Localization");
-            if (!Directory.Exists(langDir)) return;
+            string langDir = Path.Combine(Application.StartupPath, "Localization");
+            if (!Directory.Exists(langDir))
+                return;
 
-            var languages = new Dictionary<string, string>
-            {
-                { "en-US", "English" },
-                { "zh-CN", "简体中文" }
-                // 添加更多语言映射...
-            };
+            var validFiles = Directory.EnumerateFiles(langDir, "*.json")
+                .Select(Path.GetFileNameWithoutExtension)
+                .Where(LanguageDisplayNames.ContainsKey);
 
-            foreach (var file in Directory.GetFiles(langDir, "*.json"))
+            foreach (string langCode in validFiles)
             {
-                var langCode = Path.GetFileNameWithoutExtension(file);
-                if (languages.TryGetValue(langCode, out var displayName))
-                {
-                    listLanguages.Items.Add(new LanguageItem(displayName, langCode));
-                }
+                listLanguages.Items.Add(new LanguageItem(
+                    displayName: LanguageDisplayNames[langCode],
+                    code: langCode
+                ));
             }
 
             // 设置当前选中项
-            var currentIndex = listLanguages.FindString(LocalizationManager._currentLanguage.Keys.ToList().FirstOrDefault());
-            if (currentIndex >= 0) listLanguages.SelectedIndex = currentIndex;
+            string currentLang = Settings.Default.Language ?? "en-US";
+            for (int i = 0; i < listLanguages.Items.Count; i++)
+            {
+                if (((LanguageItem)listLanguages.Items[i]).Code == currentLang)
+                {
+                    listLanguages.SelectedIndex = i;
+                    break;
+                }
+            }
         }
 
-        private void BtnConfirm_Click(object sender, EventArgs e)
+        private void BtnConfirm_Click(object sender, System.EventArgs e)
         {
-            if (listLanguages.SelectedItem is LanguageItem item)
+            if (listLanguages.SelectedItem is not LanguageItem selected)
+                return;
+
+            try
             {
-                if (LocalizationManager.ReadLanguage(item.Code))
+                if (LocalizationManager.TryLoadLanguage(selected.Code))
                 {
+                    Settings.Default.Language = selected.Code;
+                    Settings.Default.Save();
+
                     var result = MessageBox.Show(
-                        LocalizationManager.GetText("Restart_Required_Detail"),
-                        LocalizationManager.GetText("Restart_Required"),
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information);
+                        text: LocalizationManager.GetText("Restart_Required_Detail"),
+                        caption: LocalizationManager.GetText("Restart_Required"),
+                        buttons: MessageBoxButtons.YesNo,
+                        icon: MessageBoxIcon.Information
+                    );
 
                     if (result == DialogResult.Yes)
                     {
-                        Settings.Default.Language = item.Code;
-                        Settings.Default.Save();
                         Application.Restart();
                     }
                 }
                 this.DialogResult = DialogResult.OK;
             }
+            finally
+            {
+                this.Close();
+            }
         }
 
-        private void BtnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, System.EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
         // 辅助类用于存储语言显示名称和代码
-        private class LanguageItem
+        private sealed class LanguageItem
         {
             public string DisplayName { get; }
             public string Code { get; }

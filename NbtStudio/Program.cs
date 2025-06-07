@@ -17,7 +17,6 @@ namespace NbtStudio
         [STAThread]
         static void Main(string[] args)
         {
-            InitializeLanguage.InitializeLanguageFiles();
             LocalizationManager.LoadLanguage();
 
             if (Environment.OSVersion.Version.Major >= 6)
