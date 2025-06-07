@@ -13,7 +13,6 @@ namespace NbtStudio.UI
         {
             InitializeComponent();
             this.Icon = source.GetImage(IconType.NbtStudio).Icon;
-            NameLabel.Text = String.Format(NameLabel.Text, Updater.GetCurrentVersion().ToString(false));
         }
 
         private void AboutWindow_Load(object sender, EventArgs e)

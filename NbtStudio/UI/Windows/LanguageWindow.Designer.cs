@@ -26,65 +26,60 @@ namespace NBTStudio
 
         private void InitializeComponent()
         {
-            listLanguages = new ListBox();
-            btnConfirm = new Button();
-            btnCancel = new Button();
-            SuspendLayout();
+            this.listLanguages = new ListBox();
+            this.btnConfirm = new Button();
+            this.btnCancel = new Button();
+            this.SuspendLayout();
             // 
             // listLanguages
             // 
-            listLanguages.FormattingEnabled = true;
-            listLanguages.ItemHeight = 20;
-            listLanguages.Location = new Point(15, 16);
-            listLanguages.Margin = new Padding(4, 4, 4, 4);
-            listLanguages.Name = "listLanguages";
-            listLanguages.Size = new Size(214, 204);
-            listLanguages.TabIndex = 0;
+            this.listLanguages.FormattingEnabled = true;
+            this.listLanguages.ItemHeight = 20;
+            this.listLanguages.Location = new Point(15, 16);
+            this.listLanguages.Margin = new Padding(4, 4, 4, 4);
+            this.listLanguages.Name = "listLanguages";
+            this.listLanguages.Size = new Size(214, 204);
+            this.listLanguages.TabIndex = 0;
             // 
             // btnConfirm
             // 
-            btnConfirm.Location = new Point(15, 237);
-            btnConfirm.Margin = new Padding(4, 4, 4, 4);
-            btnConfirm.Name = "btnConfirm";
-            btnConfirm.Size = new Size(96, 31);
-            btnConfirm.TabIndex = 1;
-            btnConfirm.Text = LocalizationManager.GetText("OK");
-            btnConfirm.UseVisualStyleBackColor = true;
-            btnConfirm.Click += BtnConfirm_Click;
+            this.btnConfirm.Location = new Point(15, 237);
+            this.btnConfirm.Margin = new Padding(4, 4, 4, 4);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new Size(96, 31);
+            this.btnConfirm.TabIndex = 1;
+            this.btnConfirm.Text = LocalizationManager.GetText("OK");
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += BtnConfirm_Click;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(133, 237);
-            btnCancel.Margin = new Padding(4, 4, 4, 4);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(96, 31);
-            btnCancel.TabIndex = 2;
-            btnCancel.Text = LocalizationManager.GetText("Cancel");
-            btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += BtnCancel_Click;
+            this.btnCancel.Location = new Point(133, 237);
+            this.btnCancel.Margin = new Padding(4, 4, 4, 4);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new Size(96, 31);
+            this.btnCancel.TabIndex = 2;
+            this.btnCancel.Text = LocalizationManager.GetText("Cancel");
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += BtnCancel_Click;
             // 
             // LanguageWindow
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(244, 281);
-            Controls.Add(btnCancel);
-            Controls.Add(btnConfirm);
-            Controls.Add(listLanguages);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            Margin = new Padding(4, 4, 4, 4);
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "LanguageWindow";
-            StartPosition = FormStartPosition.CenterParent;
-            Text = LocalizationManager.GetText("Select_Language");
-            // 在运行时设置文本
-            Load += (sender, e) => {
-                this.Text = LocalizationManager.GetText("Select_Language");
-                btnConfirm.Text = LocalizationManager.GetText("OK");
-                btnCancel.Text = LocalizationManager.GetText("Cancel");
-            };
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new SizeF(9F, 20F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.ClientSize = new Size(244, 281);
+            this.Controls.Add(btnCancel);
+            this.Controls.Add(btnConfirm);
+            this.Controls.Add(listLanguages);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.Margin = new Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "LanguageWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = LocalizationManager.GetText("Select_Language");
+            this.Load += new System.EventHandler(this.LanguageWindow_Load);
+            this.ResumeLayout(false);
         }
 
         #endregion

@@ -58,7 +58,7 @@
             this.NameLabel.Size = new System.Drawing.Size(142, 24);
             this.NameLabel.TabIndex = 0;
             this.NameLabel.TabStop = true;
-            this.NameLabel.Text = "NBT Studio v{0}";
+            this.NameLabel.Text = "NBT Studio";
             this.NameLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.NameLabel_LinkClicked);
             // 
             // InfoLabel
