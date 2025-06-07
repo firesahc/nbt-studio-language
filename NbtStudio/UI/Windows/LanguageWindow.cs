@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using NbtStudio.Properties;
 using System.Linq;
 using NbtStudio;
+using System;
 
 namespace NBTStudio
 {
@@ -21,12 +22,12 @@ namespace NBTStudio
             InitializeComponent();
             this.Icon = source.GetImage(IconType.NbtStudio).Icon;
             this.Text = LocalizationManager.GetText("LanguageWindow_Title");
+            LoadAvailableLanguages();
         }
 
-        protected override void OnLoad(System.EventArgs e)
+        private void LanguageWindow_Load(object sender, EventArgs e)
         {
-            base.OnLoad(e);
-            LoadAvailableLanguages();
+            this.CenterToParent();
         }
 
         private void LoadAvailableLanguages()
