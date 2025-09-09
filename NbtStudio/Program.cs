@@ -17,8 +17,6 @@ namespace NbtStudio
         [STAThread]
         static void Main(string[] args)
         {
-            LocalizationManager.LoadLanguage();
-
             if (Environment.OSVersion.Version.Major >= 6)
                 SetProcessDPIAware();
             Application.EnableVisualStyles();

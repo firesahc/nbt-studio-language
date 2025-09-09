@@ -63,7 +63,7 @@
             this.WordWrapCheck.Name = "WordWrapCheck";
             this.WordWrapCheck.Size = new System.Drawing.Size(86, 19);
             this.WordWrapCheck.TabIndex = 9;
-            this.WordWrapCheck.Text = LocalizationManager.GetText("Word_Wrap");
+            this.WordWrapCheck.Text = languageManager.GetText("Word_Wrap");
             this.WordWrapCheck.UseVisualStyleBackColor = true;
             this.WordWrapCheck.Visible = false;
             this.WordWrapCheck.CheckedChanged += new System.EventHandler(this.WordWrapCheck_CheckedChanged);
@@ -77,7 +77,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(88, 27);
             this.ButtonOk.TabIndex = 6;
-            this.ButtonOk.Text = LocalizationManager.GetText("OK");
+            this.ButtonOk.Text = languageManager.GetText("OK");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -91,7 +91,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(88, 27);
             this.ButtonCancel.TabIndex = 7;
-            this.ButtonCancel.Text = LocalizationManager.GetText("Cancel");
+            this.ButtonCancel.Text = languageManager.GetText("Cancel");
             this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // MainTable
@@ -122,7 +122,7 @@
             this.ValueLabel.Name = "ValueLabel";
             this.ValueLabel.Size = new System.Drawing.Size(41, 15);
             this.ValueLabel.TabIndex = 3;
-            this.ValueLabel.Text = LocalizationManager.GetText("Value") + ":";
+            this.ValueLabel.Text = languageManager.GetText("Value") + ":";
             // 
             // ValueBox
             // 
@@ -145,7 +145,7 @@
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(44, 15);
             this.NameLabel.TabIndex = 1;
-            this.NameLabel.Text = LocalizationManager.GetText("Name") + ":";
+            this.NameLabel.Text = languageManager.GetText("Name") + ":";
             // 
             // NameBox
             // 
@@ -175,7 +175,7 @@
             this.Name = "EditTagWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = LocalizationManager.GetText("Create_Tag");
+            this.Text = languageManager.GetText("Create_Tag");
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EditTagWindow_FormClosed);
             this.Load += new System.EventHandler(this.EditTagWindow_Load);
             this.ButtonsPanel.ResumeLayout(false);

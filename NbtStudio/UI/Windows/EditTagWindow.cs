@@ -55,9 +55,9 @@ namespace NbtStudio.UI
             }
             this.Icon = NbtUtil.TagTypeImage(source, tag.TagType).Icon;
             if (purpose == EditPurpose.Create)
-                this.Text = LocalizationManager.GetText("Create_Tag_Detail", args: new Object[] { NbtUtil.TagTypeName(tag.TagType) });
+                this.Text = languageManager.GetText("Create_Tag_Detail", args: new Object[] { NbtUtil.TagTypeName(tag.TagType) });
             else if (purpose == EditPurpose.EditValue || purpose == EditPurpose.Rename)
-                this.Text = LocalizationManager.GetText("Edit_Tag_Detail", args: new Object[] { NbtUtil.TagTypeName(tag.TagType) });
+                this.Text = languageManager.GetText("Edit_Tag_Detail", args: new Object[] { NbtUtil.TagTypeName(tag.TagType) });
 
             if (SettingName && (!SettingValue || purpose != EditPurpose.EditValue))
             {
@@ -95,7 +95,7 @@ namespace NbtStudio.UI
         public static bool ModifyTag(IconSource source, NbtTag existing, EditPurpose purpose)
         {
             if (purpose == EditPurpose.Create)
-                throw new ArgumentException(LocalizationManager.GetText("Use_CreateTag"));
+                throw new ArgumentException(languageManager.GetText("Use_CreateTag"));
             var parent = existing.Parent;
             bool has_name = parent is NbtCompound;
             bool has_value = NbtUtil.IsValueType(existing.TagType);

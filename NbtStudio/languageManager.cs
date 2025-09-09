@@ -11,26 +11,26 @@ using NbtStudio.Properties;
 
 namespace NbtStudio
 {
-    public static class LocalizationManager
+    public static class languageManager
     {
-        private static ConcurrentDictionary<string, string> _currentStrings = new(StringComparer.OrdinalIgnoreCase);
-        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _languageCache = new();
+        private static ConcurrentDictionary<string, string> _currentLanguage = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _languageRegistry = new();
         private static readonly object _syncLock = new();
-        private static readonly string _localizationDir = Path.Combine(Application.StartupPath, "Localization");
+        private static readonly string _languageDir = Path.Combine(Application.StartupPath, "Language");
 
-        static LocalizationManager()
+        static languageManager()
         {
-            EnsureLocalizationDirectory();
+            EnsureLanguageDirectory();
             LoadLanguage();
         }
 
-        private static void EnsureLocalizationDirectory()
+        private static void EnsureLanguageDirectory()
         {
             try
             {
-                if (!Directory.Exists(_localizationDir))
+                if (!Directory.Exists(_languageDir))
                 {
-                    Directory.CreateDirectory(_localizationDir);
+                    Directory.CreateDirectory(_languageDir);
                     CreateDefaultLanguageFiles();
                 }
             }
@@ -64,7 +64,7 @@ namespace NbtStudio
             {
                 try
                 {
-                    var filePath = Path.Combine(_localizationDir, $"{langCode}.json");
+                    var filePath = Path.Combine(_languageDir, $"{langCode}.json");
                     if (!File.Exists(filePath))
                     {
                         File.WriteAllText(
@@ -86,7 +86,7 @@ namespace NbtStudio
             langCode ??= Settings.Default.Language ?? "en-US";
             if (!TryLoadLanguage(langCode) && !TryLoadLanguage("en-US"))
             {
-                _currentStrings.Clear();
+                _currentLanguage.Clear();
                 Debug.WriteLine("无法加载任何语言文件");
             }
         }
@@ -95,19 +95,19 @@ namespace NbtStudio
         {
             lock (_syncLock)
             {
-                // 尝试从缓存获取
-                if (_languageCache.TryGetValue(langCode, out var cached))
+                // 尝试从语言注册表获取
+                if (_languageRegistry.TryGetValue(langCode, out var cached))
                 {
-                    _currentStrings = cached;
+                    _currentLanguage = cached;
                     return true;
                 }
 
                 try
                 {
-                    var filePath = Path.Combine(_localizationDir, $"{langCode}.json");
+                    var filePath = Path.Combine(_languageDir, $"{langCode}.json");
 
                     // 路径安全检查
-                    if (!filePath.StartsWith(_localizationDir, StringComparison.OrdinalIgnoreCase) ||
+                    if (!filePath.StartsWith(_languageDir, StringComparison.OrdinalIgnoreCase) ||
                         !File.Exists(filePath))
                     {
                         return false;
@@ -134,8 +134,8 @@ namespace NbtStudio
                         StringComparer.OrdinalIgnoreCase
                     );
 
-                    _languageCache[langCode] = concurrentDict;
-                    _currentStrings = concurrentDict;
+                    _languageRegistry[langCode] = concurrentDict;
+                    _currentLanguage = concurrentDict;
                     return true;
                 }
                 catch (Exception ex) when (ex is JsonException || ex is IOException)
@@ -157,7 +157,7 @@ namespace NbtStudio
             string text = defaultValue ?? key;
 
             // 尝试获取翻译
-            if (!_currentStrings.TryGetValue(key, out var translation))
+            if (!_currentLanguage.TryGetValue(key, out var translation))
             {
                 Debug.WriteLine($"本地化键缺失: {key}");
             }

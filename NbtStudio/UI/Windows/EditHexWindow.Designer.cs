@@ -58,7 +58,7 @@
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(44, 15);
             this.NameLabel.TabIndex = 1;
-            this.NameLabel.Text = LocalizationManager.GetText("Name") + ":";
+            this.NameLabel.Text = languageManager.GetText("Name") + ":";
             // 
             // NameBox
             // 
@@ -80,7 +80,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.ButtonCancel.TabIndex = 6;
-            this.ButtonCancel.Text =LocalizationManager.GetText("Cancel");
+            this.ButtonCancel.Text =languageManager.GetText("Cancel");
             this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // ButtonOk
@@ -91,7 +91,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(75, 23);
             this.ButtonOk.TabIndex = 5;
-            this.ButtonOk.Text = LocalizationManager.GetText("OK");
+            this.ButtonOk.Text = languageManager.GetText("OK");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -154,7 +154,7 @@
             this.TextPage.Padding = new System.Windows.Forms.Padding(3);
             this.TextPage.Size = new System.Drawing.Size(684, 244);
             this.TextPage.TabIndex = 1;
-            this.TextPage.Text = LocalizationManager.GetText("Text_View");
+            this.TextPage.Text = languageManager.GetText("Text_View");
             this.TextPage.UseVisualStyleBackColor = true;
             // 
             // TextBox
@@ -182,7 +182,7 @@
             this.HexPage.Padding = new System.Windows.Forms.Padding(3);
             this.HexPage.Size = new System.Drawing.Size(684, 244);
             this.HexPage.TabIndex = 0;
-            this.HexPage.Text = LocalizationManager.GetText("Hex_View");
+            this.HexPage.Text = languageManager.GetText("Hex_View");
             this.HexPage.UseVisualStyleBackColor = true;
             // 
             // HexInfoPanel
@@ -229,7 +229,7 @@
             this.Name = "EditHexWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = LocalizationManager.GetText("Edit_Hex");
+            this.Text = languageManager.GetText("Edit_Hex");
             this.Load += new System.EventHandler(this.EditHexWindow_Load);
             this.MainTable.ResumeLayout(false);
             this.MainTable.PerformLayout();

@@ -57,7 +57,7 @@ namespace NbtStudio.UI
                 int index = message.IndexOf(redundant);
                 if (index != -1)
                     message = message[(index + redundant.Length)..];
-                ShowTooltip(LocalizationManager.GetText("Regex_Parsing_Error"), message, TimeSpan.FromSeconds(3));
+                ShowTooltip(languageManager.GetText("Regex_Parsing_Error"), message, TimeSpan.FromSeconds(3));
             }
         }
 

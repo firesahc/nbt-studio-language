@@ -21,7 +21,7 @@ namespace NBTStudio
         {
             InitializeComponent();
             this.Icon = source.GetImage(IconType.NbtStudio).Icon;
-            this.Text = LocalizationManager.GetText("LanguageWindow_Title");
+            this.Text = languageManager.GetText("LanguageWindow_Title");
             LoadAvailableLanguages();
         }
 
@@ -34,7 +34,7 @@ namespace NBTStudio
         {
             listLanguages.Items.Clear();
 
-            string langDir = Path.Combine(Application.StartupPath, "Localization");
+            string langDir = Path.Combine(Application.StartupPath, "Language");
             if (!Directory.Exists(langDir))
                 return;
 
@@ -69,14 +69,14 @@ namespace NBTStudio
 
             try
             {
-                if (LocalizationManager.TryLoadLanguage(selected.Code))
+                if (languageManager.TryLoadLanguage(selected.Code))
                 {
                     Settings.Default.Language = selected.Code;
                     Settings.Default.Save();
 
                     var result = MessageBox.Show(
-                        text: LocalizationManager.GetText("Restart_Required_Detail"),
-                        caption: LocalizationManager.GetText("Restart_Required"),
+                        text: languageManager.GetText("Restart_Required_Detail"),
+                        caption: languageManager.GetText("Restart_Required"),
                         buttons: MessageBoxButtons.YesNo,
                         icon: MessageBoxIcon.Information
                     );

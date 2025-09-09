@@ -69,7 +69,7 @@
             this.ImportButton.Name = "ImportButton";
             this.ImportButton.Size = new System.Drawing.Size(63, 32);
             this.ImportButton.TabIndex = 1;
-            this.ImportButton.Text = LocalizationManager.GetText("Import");
+            this.ImportButton.Text = languageManager.GetText("Import");
             this.ImportButton.UseVisualStyleBackColor = true;
             this.ImportButton.Click += new System.EventHandler(this.ImportButton_Click);
             // 
@@ -88,7 +88,7 @@
             this.Name = "IconSetWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = LocalizationManager.GetText("Select_Icon_Set");
+            this.Text = languageManager.GetText("Select_Icon_Set");
             this.Load += new System.EventHandler(this.IconSetWindow_Load);
             this.ButtonsPanel.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -49,7 +49,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(75, 23);
             this.ButtonCancel.TabIndex = 8;
-            this.ButtonCancel.Text = LocalizationManager.GetText("Cancel");
+            this.ButtonCancel.Text = languageManager.GetText("Cancel");
             this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // ButtonOk
@@ -59,7 +59,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(75, 23);
             this.ButtonOk.TabIndex = 7;
-            this.ButtonOk.Text = LocalizationManager.GetText("OK");
+            this.ButtonOk.Text = languageManager.GetText("OK");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -91,7 +91,7 @@
             this.CheckMinify.Name = "CheckMinify";
             this.CheckMinify.Size = new System.Drawing.Size(53, 17);
             this.CheckMinify.TabIndex = 5;
-            this.CheckMinify.Text = LocalizationManager.GetText("Minify");
+            this.CheckMinify.Text = languageManager.GetText("Minify");
             this.CheckMinify.UseVisualStyleBackColor = true;
             // 
             // CheckLittleEndian
@@ -101,7 +101,7 @@
             this.CheckLittleEndian.Name = "CheckLittleEndian";
             this.CheckLittleEndian.Size = new System.Drawing.Size(84, 17);
             this.CheckLittleEndian.TabIndex = 2;
-            this.CheckLittleEndian.Text = LocalizationManager.GetText("Little-Endian");
+            this.CheckLittleEndian.Text = languageManager.GetText("Little-Endian");
             this.CheckLittleEndian.UseVisualStyleBackColor = true;
             // 
             // CompressionBox
@@ -130,7 +130,7 @@
             this.CheckBedrockHeader.Name = "CheckBedrockHeader";
             this.CheckBedrockHeader.Size = new System.Drawing.Size(104, 17);
             this.CheckBedrockHeader.TabIndex = 3;
-            this.CheckBedrockHeader.Text = LocalizationManager.GetText("Bedrock_Header");
+            this.CheckBedrockHeader.Text = languageManager.GetText("Bedrock_Header");
             this.CheckBedrockHeader.UseVisualStyleBackColor = true;
             // 
             // ExportWindow
@@ -155,7 +155,7 @@
             this.MinimizeBox = false;
             this.Name = "ExportWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = LocalizationManager.GetText("Export_Settings");
+            this.Text = languageManager.GetText("Export_Settings");
             this.ResumeLayout(false);
             this.PerformLayout();
 

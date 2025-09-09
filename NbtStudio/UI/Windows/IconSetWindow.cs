@@ -103,7 +103,7 @@ namespace NbtStudio.UI
         {
             using (var dialog = new OpenFileDialog
             {
-                Title = LocalizationManager.GetText("Icon_ZIP"),
+                Title = languageManager.GetText("Icon_ZIP"),
                 RestoreDirectory = false,
                 Multiselect = true,
                 Filter = "ZIP Files|*.zip"
@@ -124,7 +124,7 @@ namespace NbtStudio.UI
 
         public static void ShowImportFailed(string path, IFailable import, IWin32Window owner)
         {
-            var window = new ExceptionWindow(LocalizationManager.GetText("Failed_load_icons"),LocalizationManager.GetText("Failed_load_icons_Detail", args: new Object[] { path }), import);
+            var window = new ExceptionWindow(languageManager.GetText("Failed_load_icons"),languageManager.GetText("Failed_load_icons_Detail", args: new Object[] { path }), import);
             window.ShowDialog(owner);
         }
 
@@ -135,7 +135,7 @@ namespace NbtStudio.UI
                 IconSourceRegistry.RegisterCustomSource(path);
                 if (!Properties.Settings.Default.CustomIconSets.Contains(path))
                     Properties.Settings.Default.CustomIconSets.Add(path);
-            }, LocalizationManager.GetText("Loading_icons"));
+            }, languageManager.GetText("Loading_icons"));
             if (failable.Failed)
                 Properties.Settings.Default.CustomIconSets.Remove(path);
             return failable;

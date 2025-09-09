@@ -42,14 +42,14 @@ namespace NbtStudio.UI
         private void ShowTooltip(ValueCheckResult result)
         {
             if (result == ValueCheckResult.InvalidFormat)
-                ShowTooltip(LocalizationManager.GetText("Invalid_Format"),LocalizationManager.GetText("Invalid_Format_Detail", args: new Object[] { NbtUtil.TagTypeName(NbtTag.TagType).ToLower()}), TimeSpan.FromSeconds(2));
+                ShowTooltip(languageManager.GetText("Invalid_Format"),languageManager.GetText("Invalid_Format_Detail", args: new Object[] { NbtUtil.TagTypeName(NbtTag.TagType).ToLower()}), TimeSpan.FromSeconds(2));
             else if (result == ValueCheckResult.InvalidOutOfRange)
             {
                 var (min, max) = NbtUtil.MinMaxFor(NbtTag.TagType);
-                ShowTooltip(LocalizationManager.GetText("Out_of_Range"),LocalizationManager.GetText("Out_of_Range_Detail", args: new Object[] { NbtUtil.TagTypeName(NbtTag.TagType).ToLower(),min,max}), TimeSpan.FromSeconds(4));
+                ShowTooltip(languageManager.GetText("Out_of_Range"),languageManager.GetText("Out_of_Range_Detail", args: new Object[] { NbtUtil.TagTypeName(NbtTag.TagType).ToLower(),min,max}), TimeSpan.FromSeconds(4));
             }
             else if (result == ValueCheckResult.InvalidUnknown)
-                ShowTooltip(LocalizationManager.GetText("Unknown_Error"),LocalizationManager.GetText("Unknown_Error_Detail"), TimeSpan.FromSeconds(2));
+                ShowTooltip(languageManager.GetText("Unknown_Error"),languageManager.GetText("Unknown_Error_Detail"), TimeSpan.FromSeconds(2));
         }
 
         public void SetTags(NbtTag tag, NbtContainerTag parent, bool fill_current_value)

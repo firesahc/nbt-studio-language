@@ -48,7 +48,7 @@ namespace NBTStudio
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new Size(96, 31);
             this.btnConfirm.TabIndex = 1;
-            this.btnConfirm.Text = LocalizationManager.GetText("OK");
+            this.btnConfirm.Text = languageManager.GetText("OK");
             this.btnConfirm.UseVisualStyleBackColor = true;
             this.btnConfirm.Click += BtnConfirm_Click;
             // 
@@ -59,7 +59,7 @@ namespace NBTStudio
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new Size(96, 31);
             this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = LocalizationManager.GetText("Cancel");
+            this.btnCancel.Text = languageManager.GetText("Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += BtnCancel_Click;
             // 
@@ -77,7 +77,7 @@ namespace NBTStudio
             this.MinimizeBox = false;
             this.Name = "LanguageWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = LocalizationManager.GetText("Select_Language");
+            this.Text = languageManager.GetText("Select_Language");
             this.Load += new System.EventHandler(this.LanguageWindow_Load);
             this.ResumeLayout(false);
         }
