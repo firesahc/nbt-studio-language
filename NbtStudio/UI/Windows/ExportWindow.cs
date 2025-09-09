@@ -37,9 +37,9 @@ namespace NbtStudio.UI
                 CheckJson.Checked = extension == ".json";
             }
             SetEnables();
-            Tooltips.SetToolTip(CheckLittleEndian, LocalizationManager.GetText("CheckLittleEndian"));
-            Tooltips.SetToolTip(CheckBedrockHeader, LocalizationManager.GetText("CheckBedrockHeader"));
-            Tooltips.SetToolTip(CheckJson, LocalizationManager.GetText("CheckJson"));
+            Tooltips.SetToolTip(CheckLittleEndian, languageManager.GetText("CheckLittleEndian"));
+            Tooltips.SetToolTip(CheckBedrockHeader, languageManager.GetText("CheckBedrockHeader"));
+            Tooltips.SetToolTip(CheckJson, languageManager.GetText("CheckJson"));
         }
 
         public ExportSettings GetSettings()

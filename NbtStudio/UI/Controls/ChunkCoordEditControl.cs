@@ -114,9 +114,9 @@ namespace NbtStudio.UI
         {
             var active = ZBox.Focused ? ZBox : XBox;
             if (result == CoordCheckResult.InvalidAlreadyTaken)
-                active.ShowTooltip(LocalizationManager.GetText("Chunk_Already_Present"),LocalizationManager.GetText("Chunk_Already_Present_Detail"), TimeSpan.FromSeconds(2));
+                active.ShowTooltip(languageManager.GetText("Chunk_Already_Present"),languageManager.GetText("Chunk_Already_Present_Detail"), TimeSpan.FromSeconds(2));
             else if (result == CoordCheckResult.InvalidXOutOfBounds || result == CoordCheckResult.InvalidZOutOfBounds || result == CoordCheckResult.InvalidBothOutOfBounds)
-                active.ShowTooltip(LocalizationManager.GetText("Out_of_Bounds"), LocalizationManager.GetText("Out_of_Bounds", args: new Object[]{ RegionFile.ChunkXDimension - 1}), TimeSpan.FromSeconds(2));
+                active.ShowTooltip(languageManager.GetText("Out_of_Bounds"), languageManager.GetText("Out_of_Bounds", args: new Object[]{ RegionFile.ChunkXDimension - 1}), TimeSpan.FromSeconds(2));
         }
 
         private void Box_TextChanged(object sender, EventArgs e)

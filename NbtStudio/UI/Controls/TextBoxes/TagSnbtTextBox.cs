@@ -109,7 +109,7 @@ namespace NbtStudio.UI
 
         private class SnbtInvalidFormat : ISnbtCheckResult
         {
-            public string Title => LocalizationManager.GetText("Invalid_Format");
+            public string Title => languageManager.GetText("Invalid_Format");
             public string Description { get; private set; }
             public bool IsValid => false;
             public SnbtInvalidFormat(Exception exception)
@@ -123,14 +123,14 @@ namespace NbtStudio.UI
             private readonly NbtTagType Required;
             private readonly NbtTagType Found;
             public SnbtInvalidWrongType(NbtTagType required, NbtTagType found) { Required = required; Found = found; }
-            public string Title => LocalizationManager.GetText("Wrong_Type");
+            public string Title => languageManager.GetText("Wrong_Type");
             public string Description => $"The SNBT must be of type {Required}, not {Found}";
             public bool IsValid => false;
         }
 
         private class SnbtValid : ISnbtCheckResult
         {
-            public string Title => LocalizationManager.GetText("Valid");
+            public string Title => languageManager.GetText("Valid");
             public string Description => "The SNBT parsed successfully";
             public bool IsValid => true;
         }

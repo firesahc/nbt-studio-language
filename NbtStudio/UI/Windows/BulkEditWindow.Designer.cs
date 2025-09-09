@@ -54,7 +54,7 @@
             this.FindLabel.Name = "FindLabel";
             this.FindLabel.Size = new System.Drawing.Size(34, 15);
             this.FindLabel.TabIndex = 1;
-            this.FindLabel.Text = LocalizationManager.GetText("Find") + ":";
+            this.FindLabel.Text = languageManager.GetText("Find") + ":";
             // 
             // ReplaceLabel
             // 
@@ -65,7 +65,7 @@
             this.ReplaceLabel.Name = "ReplaceLabel";
             this.ReplaceLabel.Size = new System.Drawing.Size(56, 15);
             this.ReplaceLabel.TabIndex = 3;
-            this.ReplaceLabel.Text = LocalizationManager.GetText("Replace") + ":";
+            this.ReplaceLabel.Text = languageManager.GetText("Replace") + ":";
             // 
             // MainTable
             // 
@@ -118,12 +118,12 @@
             // 
             // CurrentColumn
             // 
-            this.CurrentColumn.Text = LocalizationManager.GetText("Old_Name");
+            this.CurrentColumn.Text = languageManager.GetText("Old_Name");
             this.CurrentColumn.Width = 50;
             // 
             // NewColumn
             // 
-            this.NewColumn.Text = LocalizationManager.GetText("New_Name");
+            this.NewColumn.Text = languageManager.GetText("New_Name");
             this.NewColumn.Width = 50;
             // 
             // FindBox
@@ -175,7 +175,7 @@
             this.RegexCheck.Name = "RegexCheck";
             this.RegexCheck.Size = new System.Drawing.Size(58, 19);
             this.RegexCheck.TabIndex = 11;
-            this.RegexCheck.Text = LocalizationManager.GetText("Regex");
+            this.RegexCheck.Text = languageManager.GetText("Regex");
             this.RegexCheck.UseVisualStyleBackColor = true;
             this.RegexCheck.CheckedChanged += new System.EventHandler(this.RegexCheck_CheckedChanged);
             // 
@@ -200,7 +200,7 @@
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(88, 27);
             this.ButtonOk.TabIndex = 8;
-            this.ButtonOk.Text = LocalizationManager.GetText("OK");
+            this.ButtonOk.Text = languageManager.GetText("OK");
             this.ButtonOk.UseVisualStyleBackColor = true;
             this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
@@ -214,7 +214,7 @@
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(88, 27);
             this.ButtonCancel.TabIndex = 9;
-            this.ButtonCancel.Text = LocalizationManager.GetText("Cancel"); 
+            this.ButtonCancel.Text = languageManager.GetText("Cancel"); 
             this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // BulkEditWindow
@@ -233,7 +233,7 @@
             this.Name = "BulkEditWindow";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = LocalizationManager.GetText("Edit_Detail_Tag");
+            this.Text = languageManager.GetText("Edit_Detail_Tag");
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BulkEditWindow_FormClosed);
             this.Load += new System.EventHandler(this.BulkEditWindow_Load);
             this.MainTable.ResumeLayout(false);
