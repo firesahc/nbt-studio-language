@@ -1,22 +1,19 @@
+using Aga.Controls.Tree;
 using fNbt;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.Specialized;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Aga.Controls.Tree;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using TryashtarUtils.Utility;
-using TryashtarUtils.Nbt;
 using TryashtarUtils.Forms;
-using NBTStudio;
+using TryashtarUtils.Nbt;
+using TryashtarUtils.Utility;
 
 namespace NbtStudio.UI
 {
@@ -536,7 +533,7 @@ namespace NbtStudio.UI
                 {
                     file.SaveAs(dialog.FileName);
                     Properties.Settings.Default.RecentFiles.Add(dialog.FileName);
-                        return true;
+                    return true;
                 }
             }
             return false;
