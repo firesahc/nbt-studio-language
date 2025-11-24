@@ -1,6 +1,7 @@
 using Aga.Controls.Tree;
 using fNbt;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using NBTStudio;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
