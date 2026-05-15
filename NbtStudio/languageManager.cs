@@ -1,42 +1,63 @@
-using System;
+锘縰sing System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Text;
 using System.Diagnostics;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using NbtStudio.Properties;
 
 namespace NbtStudio
 {
     public static class languageManager
     {
-        private static ConcurrentDictionary<string, string> _currentLanguage = new(StringComparer.OrdinalIgnoreCase);
-        private static readonly ConcurrentDictionary<string, ConcurrentDictionary<string, string>> _languageRegistry = new();
+        private static Dictionary<string, string> _currentLanguage;
+        private static readonly Dictionary<string, Dictionary<string, string>> _languageRegistry = new(StringComparer.OrdinalIgnoreCase);
         private static readonly object _syncLock = new();
-        private static readonly string _languageDir = Path.Combine(Application.StartupPath, "Language");
+        private static string _languageDir;
+        private static bool _initialized;
 
-        static languageManager()
+        private static string LanguageDir
         {
-            EnsureLanguageDirectory();
-            LoadLanguage();
+            get
+            {
+                if (_languageDir is null)
+                    _languageDir = Path.Combine(Application.StartupPath, "Language");
+                return _languageDir;
+            }
+        }
+
+        private static void EnsureInitialized()
+        {
+            if (_initialized)
+                return;
+
+            lock (_syncLock)
+            {
+                if (_initialized)
+                    return;
+
+                EnsureLanguageDirectory();
+                LoadLanguage();
+                _initialized = true;
+            }
         }
 
         private static void EnsureLanguageDirectory()
         {
             try
             {
-                if (!Directory.Exists(_languageDir))
+                string dir = LanguageDir;
+                if (!Directory.Exists(dir))
                 {
-                    Directory.CreateDirectory(_languageDir);
+                    Directory.CreateDirectory(dir);
                     CreateDefaultLanguageFiles();
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"初始化本地化目录失败: {ex.Message}");
+                Debug.WriteLine($"Init language directory failed: {ex.Message}");
             }
         }
 
@@ -53,10 +74,10 @@ namespace NbtStudio
                 },
                 ["zh-CN"] = new()
                 {
-                    {"MenuFile", "文件"},
-                    {"MenuEdit", "编辑"},
-                    {"MenuSearch", "查找"},
-                    {"MenuHelp", "帮助"},
+                    {"MenuFile", "File"},
+                    {"MenuEdit", "Edit"},
+                    {"MenuSearch", "Find"},
+                    {"MenuHelp", "Help"},
                 }
             };
 
@@ -64,7 +85,7 @@ namespace NbtStudio
             {
                 try
                 {
-                    var filePath = Path.Combine(_languageDir, $"{langCode}.json");
+                    var filePath = Path.Combine(LanguageDir, $"{langCode}.json");
                     if (!File.Exists(filePath))
                     {
                         File.WriteAllText(
@@ -76,7 +97,7 @@ namespace NbtStudio
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"创建默认语言文件失败 ({langCode}): {ex.Message}");
+                    Debug.WriteLine($"Create default language file failed ({langCode}): {ex.Message}");
                 }
             }
         }
@@ -84,10 +105,64 @@ namespace NbtStudio
         public static void LoadLanguage(string langCode = null)
         {
             langCode ??= Settings.Default.Language ?? "en-US";
-            if (!TryLoadLanguage(langCode) && !TryLoadLanguage("en-US"))
+
+            lock (_syncLock)
             {
-                _currentLanguage.Clear();
-                Debug.WriteLine("无法加载任何语言文件");
+                if (!TryLoadLanguageInternal(langCode) && langCode != "en-US" && !TryLoadLanguageInternal("en-US"))
+                {
+                    _currentLanguage = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    Debug.WriteLine("Cannot load any language file");
+                }
+            }
+        }
+
+        private static bool TryLoadLanguageInternal(string langCode)
+        {
+            if (_languageRegistry.TryGetValue(langCode, out var cached))
+            {
+                _currentLanguage = cached;
+                return true;
+            }
+
+            try
+            {
+                var filePath = Path.Combine(LanguageDir, $"{langCode}.json");
+
+                if (!filePath.StartsWith(LanguageDir, StringComparison.OrdinalIgnoreCase) ||
+                    !File.Exists(filePath))
+                {
+                    return false;
+                }
+
+                var json = File.ReadAllText(filePath, Encoding.UTF8);
+                if (string.IsNullOrWhiteSpace(json))
+                {
+                    Debug.WriteLine($"Language file empty: {langCode}");
+                    return false;
+                }
+
+                var settings = new JsonSerializerSettings
+                {
+                    MissingMemberHandling = MissingMemberHandling.Ignore,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MaxDepth = 10,
+                    Error = (_, args) => args.ErrorContext.Handled = true
+                };
+
+                var strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(json, settings);
+                var dict = new Dictionary<string, string>(
+                    strings ?? new Dictionary<string, string>(),
+                    StringComparer.OrdinalIgnoreCase
+                );
+
+                _languageRegistry[langCode] = dict;
+                _currentLanguage = dict;
+                return true;
+            }
+            catch (Exception ex) when (ex is JsonException || ex is IOException)
+            {
+                Debug.WriteLine($"Language load failed ({langCode}): {ex.Message}");
+                return false;
             }
         }
 
@@ -95,54 +170,12 @@ namespace NbtStudio
         {
             lock (_syncLock)
             {
-                // 尝试从语言注册表获取
-                if (_languageRegistry.TryGetValue(langCode, out var cached))
-                {
-                    _currentLanguage = cached;
+                EnsureInitialized();
+                if (TryLoadLanguageInternal(langCode))
                     return true;
-                }
-
-                try
-                {
-                    var filePath = Path.Combine(_languageDir, $"{langCode}.json");
-
-                    // 路径安全检查
-                    if (!filePath.StartsWith(_languageDir, StringComparison.OrdinalIgnoreCase) ||
-                        !File.Exists(filePath))
-                    {
-                        return false;
-                    }
-
-                    var json = File.ReadAllText(filePath, Encoding.UTF8);
-                    if (string.IsNullOrWhiteSpace(json))
-                    {
-                        Debug.WriteLine($"语言文件为空: {langCode}");
-                        return false;
-                    }
-
-                    var settings = new JsonSerializerSettings
-                    {
-                        MissingMemberHandling = MissingMemberHandling.Ignore,
-                        NullValueHandling = NullValueHandling.Ignore,
-                        MaxDepth = 10,
-                        Error = (_, args) => args.ErrorContext.Handled = true
-                    };
-
-                    var strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(json, settings);
-                    var concurrentDict = new ConcurrentDictionary<string, string>(
-                        strings ?? new Dictionary<string, string>(),
-                        StringComparer.OrdinalIgnoreCase
-                    );
-
-                    _languageRegistry[langCode] = concurrentDict;
-                    _currentLanguage = concurrentDict;
-                    return true;
-                }
-                catch (Exception ex) when (ex is JsonException || ex is IOException)
-                {
-                    Debug.WriteLine($"加载语言失败 ({langCode}): {ex.Message}");
-                    return false;
-                }
+                if (langCode != "en-US")
+                    return TryLoadLanguageInternal("en-US");
+                return _currentLanguage is not null && _currentLanguage.Count > 0;
             }
         }
 
@@ -150,23 +183,34 @@ namespace NbtStudio
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                Debug.WriteLine($"无效的本地化键请求: [{key}]");
+                Debug.WriteLine($"Invalid localization key: [{key}]");
                 return "[INVALID_KEY]";
             }
 
+            if (!_initialized)
+                EnsureInitialized();
+
+            Dictionary<string, string> lang;
+
+            lock (_syncLock)
+            {
+                lang = _currentLanguage;
+            }
+
+            if (lang is null)
+                return defaultValue ?? key;
+
             string text = defaultValue ?? key;
 
-            // 尝试获取翻译
-            if (!_currentLanguage.TryGetValue(key, out var translation))
+            if (!lang.TryGetValue(key, out var translation))
             {
-                Debug.WriteLine($"本地化键缺失: {key}");
+                Debug.WriteLine($"Localization key missing: {key}");
             }
             else if (!string.IsNullOrWhiteSpace(translation))
             {
                 text = translation;
             }
 
-            // 安全格式化
             return FormatSafe(text, args, key);
         }
 
@@ -181,8 +225,26 @@ namespace NbtStudio
             }
             catch (FormatException ex)
             {
-                Debug.WriteLine($"格式化失败: {key} - {ex.Message}");
+                Debug.WriteLine($"Format failed: {key} - {ex.Message}");
                 return $"[FORMAT_ERROR:{key}]";
+            }
+        }
+
+        public static IEnumerable<string> GetAvailableLanguages()
+        {
+            try
+            {
+                string dir = LanguageDir;
+                if (!Directory.Exists(dir))
+                    return Array.Empty<string>();
+
+                return Directory.EnumerateFiles(dir, "*.json")
+                    .Select(Path.GetFileNameWithoutExtension)
+                    .Where(x => !string.IsNullOrEmpty(x));
+            }
+            catch
+            {
+                return Array.Empty<string>();
             }
         }
     }

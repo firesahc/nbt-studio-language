@@ -1,4 +1,4 @@
-using System.IO;
+锘縰sing System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using NbtStudio.Properties;
@@ -6,15 +6,14 @@ using System.Linq;
 using NbtStudio;
 using System;
 
-namespace NBTStudio
+namespace NbtStudio.UI
 {
     public partial class LanguageWindow : Form
     {
         private static readonly Dictionary<string, string> LanguageDisplayNames = new()
         {
             ["en-US"] = "English",
-            ["zh-CN"] = "简体中文"
-            // 添加更多语言映射...
+            ["zh-CN"] = "涓枃 (Chinese)"
         };
 
         public LanguageWindow(IconSource source)
@@ -34,23 +33,20 @@ namespace NBTStudio
         {
             listLanguages.Items.Clear();
 
-            string langDir = Path.Combine(Application.StartupPath, "Language");
-            if (!Directory.Exists(langDir))
-                return;
+            var availableLanguages = languageManager.GetAvailableLanguages().ToList();
 
-            var validFiles = Directory.EnumerateFiles(langDir, "*.json")
-                .Select(Path.GetFileNameWithoutExtension)
-                .Where(LanguageDisplayNames.ContainsKey);
-
-            foreach (string langCode in validFiles)
+            foreach (string langCode in availableLanguages)
             {
+                string displayName = LanguageDisplayNames.TryGetValue(langCode, out var name)
+                    ? name
+                    : langCode;
+
                 listLanguages.Items.Add(new LanguageItem(
-                    displayName: LanguageDisplayNames[langCode],
+                    displayName: displayName,
                     code: langCode
                 ));
             }
 
-            // 设置当前选中项
             string currentLang = Settings.Default.Language ?? "en-US";
             for (int i = 0; i < listLanguages.Items.Count; i++)
             {
@@ -67,30 +63,42 @@ namespace NBTStudio
             if (listLanguages.SelectedItem is not LanguageItem selected)
                 return;
 
-            try
-            {
-                if (languageManager.TryLoadLanguage(selected.Code))
-                {
-                    Settings.Default.Language = selected.Code;
-                    Settings.Default.Save();
-
-                    var result = MessageBox.Show(
-                        text: languageManager.GetText("Restart_Required_Detail"),
-                        caption: languageManager.GetText("Restart_Required"),
-                        buttons: MessageBoxButtons.YesNo,
-                        icon: MessageBoxIcon.Information
-                    );
-
-                    if (result == DialogResult.Yes)
-                    {
-                        Application.Restart();
-                    }
-                }
-                this.DialogResult = DialogResult.OK;
-            }
-            finally
+            string currentLang = Settings.Default.Language ?? "en-US";
+            if (selected.Code == currentLang)
             {
                 this.Close();
+                return;
+            }
+
+            if (languageManager.TryLoadLanguage(selected.Code))
+            {
+                Settings.Default.Language = selected.Code;
+                Settings.Default.Save();
+
+                var result = MessageBox.Show(
+                    text: languageManager.GetText("Restart_Required_Detail"),
+                    caption: languageManager.GetText("Restart_Required"),
+                    buttons: MessageBoxButtons.YesNo,
+                    icon: MessageBoxIcon.Information
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    Application.Restart();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    text: $"Failed to load language '{selected.DisplayName}'.",
+                    caption: "Language Error",
+                    buttons: MessageBoxButtons.OK,
+                    icon: MessageBoxIcon.Warning
+                );
             }
         }
 
@@ -100,7 +108,6 @@ namespace NBTStudio
             this.Close();
         }
 
-        // 辅助类用于存储语言显示名称和代码
         private sealed class LanguageItem
         {
             public string DisplayName { get; }

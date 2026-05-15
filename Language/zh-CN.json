@@ -158,6 +158,8 @@
 	"New_Value" : "新值",
 	"Old_Value" : "旧值",
 "Edit_Tag" : "编辑标签",
+"Edit_Detail_Tag" : "编辑标签",
+"Replace" : "替换",
 
 
 //EditChunkWindow.cs
@@ -169,6 +171,7 @@
 "Elements" : "元素 {0} - {1}",
 "Element" : "元素 {0}",
 "Conversion_Error" : "无法将字节转换为大小为 {0} 的数字类型",
+"EditHex_Convert" : "无法将字节转换为大小为 {0} 的数字类型",
 "Text_View" : "文本视图",
 "Hex_View" : "十六进制视图",
 "Edit_Hex" : "编辑十六进制",

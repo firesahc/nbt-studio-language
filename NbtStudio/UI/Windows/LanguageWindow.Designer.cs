@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System;
 using NbtStudio;
 
-namespace NBTStudio
+namespace NbtStudio.UI
 {
     partial class LanguageWindow
     {
