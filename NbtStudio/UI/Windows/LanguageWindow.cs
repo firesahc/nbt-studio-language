@@ -94,8 +94,8 @@ namespace NbtStudio.UI
             else
             {
                 MessageBox.Show(
-                    text: $"Failed to load language '{selected.DisplayName}'.",
-                    caption: "Language Error",
+                    text: languageManager.GetText("Language_Load_Failed_Detail", null, selected.DisplayName),
+                    caption: languageManager.GetText("Language_Load_Failed"),
                     buttons: MessageBoxButtons.OK,
                     icon: MessageBoxIcon.Warning
                 );

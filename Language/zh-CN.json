@@ -221,8 +221,12 @@
 // LanguageWindow.cs
 "LanguageWindow_Title" : "选择语言",
 "Restart_Required" : "提示",
-	"Restart_Required_Detail" : "部分文本须要重启应用以应用更改，是否立即重启？",
-"Select_Language" : "查找语言",
+	"Restart_Required_Detail" : "部分文本需要重启应用以应用更改，是否立即重启？",
+"Select_Language" : "选择语言",
+"Language_Load_Failed" : "语言错误",
+	"Language_Load_Failed_Detail" : "无法加载语言 '{0}'。",
+"Invalid_Key" : "[无效键]",
+"Format_Error" : "[格式错误]",
 
 
 //RenameFileWindow.cs

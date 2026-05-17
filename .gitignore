@@ -11,6 +11,7 @@ desktop.ini
 *.user
 *.userosscache
 *.sln.docstates
+*.sisyphus
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

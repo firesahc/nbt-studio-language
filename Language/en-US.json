@@ -1,0 +1,242 @@
+{
+"MenuFile" : "File",
+	"New" : "New",
+	"New_File" : "New File",
+	"New_from_Clipboard" : "New from Clipboard",
+	//——————————
+	"New_Region_File" : "New Region File",
+	"Open_File" : "Open File",
+	"Open_Folder" : "Open Folder",
+	"Import" : "Import…",
+		"Import_File": "Import File",
+		"Import_Folder": "Import Folder",
+		"Import_New_File" : "Import New File",
+		"Import_New_Region_File" : "Import New Region File",
+		"Import_From_Clipboard" : "Import from Clipboard",
+	//——————————
+	"Save" : "Save",
+	"Save_As" : "Save As…",
+	//——————————
+	"Recent" : "Recent",
+	
+"MenuEdit" : "Edit",
+	"Undo" : "Undo",
+	"Redo" : "Redo",
+	//——————————
+	"Cut" : "Cut",
+	"Copy" : "Copy",
+	"Paste" : "Paste",
+	//——————————
+	"Rename" : "Rename…",
+	"Edit_Value" : "Edit Tag",
+	"Edit_as_SNBT" : "Edit Tag as SNBT",
+	"Delete" : "Delete",
+	//——————————
+	"Undo_History" : "Undo History",
+	"Redo_History" : "Redo History",
+	"Clear_Undo_History" : "Clear Undo History",
+	
+"MenuSearch" : "Find",
+	"Find" : "Find",
+	
+"MenuHelp" : "Help",
+	"About": "About NbtStudio",
+	"Language" : "Language",
+	"Change_Icons" : "Change Icons",
+	//——————————
+	"Update" : "Update",
+	"Check_for_Updates" : "Check for Updates",
+
+
+//toolbar
+"Refresh" : "Refresh",
+"Sort" : "Sort",
+"Add_Chunk" : "Add Chunk",
+"Add_Tag.1" : "Add {0} Tag",
+"Add_as_SNBT" : "Add as SNBT",
+
+
+//messages
+"Refresh_Failed" : "{0} failed to refresh:\n\n",
+"Load_Failed" : "{0} failed to load:",
+
+"Create_New_File_Anyway" : "Create a new file anyway?",
+"Open_New_File_Anyway" : "Open a new file anyway?",
+"Open_New_Folder_Anyway" : "Open a new folder anyway?",
+"Exit_Anyway": "Exit anyway?",
+
+"Clipboard_error" : "Clipboard Error",
+	"Clipboard_error_Detail" : "Unable to parse SNBT from clipboard.",
+
+"Select_NBT_files" : "Select NBT files",
+"Select_NBT_folder" : "Select a folder containing NBT files",
+
+"Unsaved_Changes" : "Unsaved Changes",
+	"Unsaved_Changes_Detail.1" : "You have unsaved changes.\n\nAre you sure you want to discard changes to these files?",
+	"Unsaved_Changes_Detail.2" : "You have unsaved changes.\n\n{0}",
+
+"Delete_Item_Confirmation" : "Are you sure you want to delete this item?",
+	"Delete_Item_Confirmation_Detail.1" : "Really delete this unsaved file?",
+	"Delete_Item_Confirmation_Detail.2" : "It will be sent to the Recycle Bin. This action cannot be undone.",
+	"Delete_Item_Confirmation_Detail.3" : "Really delete {0}?",
+"Delete_Items_Confirmation" : "Are you sure you want to delete {0}?",
+	"Delete_Items_Confirmation_Detail.1" : "Really delete these items?",
+	"Delete_Items_Confirmation_Detail.2" : "{0} will be sent to the Recycle Bin. This action cannot be undone.",
+"Error_while_deleting" : "Error While Deleting",
+	"Error_while_deleting_Detail" : "Error while deleting:",
+	
+"Update_check_failed" : "Update Check Failed",
+	"Update_check_failed_Detail" : "Failed to check for updates",
+"Update_Page" : "Would you like to go to the update page?\n",
+"Latest_Update" : "You appear to already have the latest update.\n",
+"No_update_found" : "No update available",
+	
+"No_Images" : "No images could be found in this icon set",
+	
+	
+//Right click menu
+"Collapse" : "Collapse",
+"Expand_All" : "Expand All",
+"Deselect_all_Children" : "Deselect All Children",
+"Select_all_Children" : "Select All Children",
+"Save_File" : "Save This File",
+"Save_File_As" : "Save This File As…",
+"Open_in_Explorer" : "Open in Explorer",
+"Add" : "Add…",
+	"Add_Tag.2" : " {0} Tag",
+
+// TextBoxes
+"Missing_Name" : "Missing Name",
+	"Missing_Name_Detail" : "You must give this file a name",
+	
+"Illegal_Characters" : "Illegal Characters",
+	"Illegal_Characters_Detail" : "The specified name contains characters that are not allowed",
+	
+"File_Already_Exists" : "File Already Exists",
+	"File_Already_Exists_Detail" : "A file with this name already exists",
+	
+"Invalid_Format" : "Invalid Format",
+	"Invalid_Format_Detail" : "The value for {0} is incorrect",
+	
+"Out_of_Range" : "Out of Range",
+	"Out_of_Range_Detail" : "The value for {0} must be between {1} and {2}",
+	
+"Unknown_Error" : "Unknown Error",
+	"Unknown_Error_Detail" : "An unknown error occurred while trying to parse the value",
+	
+"Regex_Parsing_Error" : "Regex Parsing Error",
+"Wrong_Type" : "Wrong Type",
+"Valid" : "Valid",
+
+//interface
+"Use_CreateTag" : "Use CreateTag to create a tag",
+"Create_Tag_Detail" : "Create {0} Tag",
+"Edit_Tag_Detail" : "Edit {0} Tag",
+"OK" : "OK",
+"Cancel" : "Cancel",
+"Name" : "Name",
+"Value" : "Value",
+"Regex" : "Regex",
+"Word_Wrap" : "Word Wrap",
+"Minify" : "Minify",
+
+
+//ChunkCoordEditControl.cs
+"Chunk_Already_Present" : "Chunk Already Present",
+	"Chunk_Already_Present_Detail" : "A chunk already exists in the region at these coordinates",
+"Out_of_Bounds" : "Out of Bounds",
+	"Out_of_Bounds_Detail" : "Chunk coordinates must be between 0 and {0}",
+
+
+//BulkEditWindow.cs
+"Rename_Detail" : "Rename {0}",
+	"Current_Name" : "Current Name",
+	"New_Name" : "New Name",
+	"Old_Name" : "Old Name",
+"Edit_Detail" : "Edit {0}",
+	"Current_Value" : "Current Value",
+	"New_Value" : "New Value",
+	"Old_Value" : "Old Value",
+"Edit_Tag" : "Edit Tag",
+"Edit_Detail_Tag" : "Edit Tag",
+"Replace" : "Replace",
+
+
+//EditChunkWindow.cs
+"Create_Chunk" : "Create Chunk",
+"Move_Chunk" : "Move Chunk",
+
+
+//EditHexWindow.cs
+"Elements" : "Elements {0} - {1}",
+"Element" : "Element {0}",
+"Conversion_Error" : "Unable to convert bytes to numeric type of size {0}",
+"EditHex_Convert" : "Unable to convert bytes to numeric type of size {0}",
+"Text_View" : "Text View",
+"Hex_View" : "Hex View",
+"Edit_Hex" : "Edit Hex",
+
+
+//EditSnbtWindow.cs
+"Create_Tag_as_SNBT" : "Create Tag as SNBT",
+	"Create_Tag_as_SNBT_Detail" : "Create {0} Tag as SNBT",
+"Edit_Tag_as_SNBT_Detail" : "Edit {0} Tag as SNBT",
+"Edit_SNBT" : "Edit SNBT",
+
+
+//EditTagWindow.cs
+"Create_Tag" : "Create Tag",
+
+
+//ExceptionWindow.cs
+"Less_Details" : "Less Details",
+"More_Details" : "Details…",
+"CheckLittleEndian" : "Needed for all Bedrock Edition files",
+"CheckBedrockHeader" : "Needed for Bedrock Edition level.dat files",
+"CheckJson" : "Quote all keys, remove type suffixes and list indicators",
+
+
+//ExportWindow.cs
+"Little-Endian" : "Little-Endian",
+"Bedrock_Header" : "Bedrock Header",
+"Export_Settings" : "Export Settings…",
+
+
+//FindWindow.cs
+"No_Results_Found": "No Results Found",
+"Found_Amount" : "Found {0} Matches",
+"Find_Next": "Find Next",
+"Find_Previous": "Find Previous",
+"Find_All" : "Find All",
+
+
+//IconSetWindow.cs
+"Icon_ZIP" : "Select custom icon ZIP file",
+"Failed_load_icons" : "Failed to Load Icons",
+	"Failed_load_icons_Detail" : "Failed to load the custom icon source at {0}.",
+"Loading_icons" : "Loading Icons",
+"Select_Icon_Set" : "Select Icon Set",
+
+
+// LanguageWindow.cs
+"LanguageWindow_Title" : "Select Language",
+"Restart_Required" : "Restart Required",
+	"Restart_Required_Detail" : "Some text changes require a restart to take effect. Restart now?",
+"Select_Language" : "Select Language",
+"Language_Load_Failed" : "Language Error",
+	"Language_Load_Failed_Detail" : "Failed to load language '{0}'.",
+"Invalid_Key" : "[INVALID_KEY]",
+"Format_Error" : "[FORMAT_ERROR]",
+
+
+//RenameFileWindow.cs
+"Rename_File" : "Rename…",
+
+
+//UpdateWindow.cs
+"Update_error" : "Update Error",
+	"Update_error_Detail" : "Failed to update the application.",
+"Current_Version" : "Current Version",
+"Available_Version" : "Available Version",
+"Changelog" : "Changelog",
+}

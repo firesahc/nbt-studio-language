@@ -1,32 +1,131 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using Newtonsoft.Json;
-using System.Text;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
 using NbtStudio.Properties;
 
 namespace NbtStudio
 {
+    /// <summary>
+    /// Static facade that provides localized text and language switching.
+    ///
+    /// SRP: This class is now a thin orchestration layer. File I/O lives in
+    ///      <see cref="JsonFileLanguageStorage"/>; defaults live in <see cref="LanguageDefaults"/>.
+    /// DIP: Depends on <see cref="ILanguageStorage"/> (abstraction), not on concrete file/JSON details.
+    /// ISP: Exposes <see cref="ILanguageProvider"/> so consumers only depend on what they use.
+    /// OCP: New storage backends can be injected without modifying this class.
+    /// </summary>
     public static class languageManager
     {
-        private static Dictionary<string, string> _currentLanguage;
-        private static readonly Dictionary<string, Dictionary<string, string>> _languageRegistry = new(StringComparer.OrdinalIgnoreCase);
+        private static ILanguageStorage _storage;
+        private static IReadOnlyDictionary<string, string> _currentLanguage;
         private static readonly object _syncLock = new();
-        private static string _languageDir;
         private static bool _initialized;
+        private static string _currentLangCode = "en-US";
 
-        private static string LanguageDir
+        // ── Public API (backward-compatible) ──────────────────────────
+
+        /// <inheritdoc cref="ILanguageProvider.GetText"/>
+        public static string GetText(string key, string defaultValue = null, params object[] args)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                Debug.WriteLine($"Invalid localization key: [{key}]");
+                return GetErrorText("Invalid_Key", "[INVALID_KEY]");
+            }
+
+            EnsureInitialized();
+
+            IReadOnlyDictionary<string, string> lang;
+            lock (_syncLock)
+            {
+                lang = _currentLanguage;
+            }
+
+            if (lang is null)
+                return SafeFormat(defaultValue ?? key, args, key);
+
+            if (!lang.TryGetValue(key, out var translation) || string.IsNullOrWhiteSpace(translation))
+            {
+                Debug.WriteLine($"Localization key missing: {key}");
+                return SafeFormat(defaultValue ?? key, args, key);
+            }
+
+            return SafeFormat(translation, args, key);
+        }
+
+        /// <inheritdoc cref="ILanguageProvider.TryLoadLanguage"/>
+        public static bool TryLoadLanguage(string langCode)
+        {
+            if (string.IsNullOrWhiteSpace(langCode))
+                throw new ArgumentException("Language code must not be empty.", nameof(langCode));
+
+            lock (_syncLock)
+            {
+                EnsureInitialized();
+                if (TryLoadCore(langCode))
+                    return true;
+                // Fallback to en-US for unknown languages.
+                if (!langCode.Equals("en-US", StringComparison.OrdinalIgnoreCase))
+                    return TryLoadCore("en-US");
+                return _currentLanguage is not null && _currentLanguage.Count > 0;
+            }
+        }
+
+        /// <inheritdoc cref="ILanguageProvider.LoadLanguage"/>
+        public static void LoadLanguage(string langCode = null)
+        {
+            langCode ??= Settings.Default.Language ?? "en-US";
+
+            lock (_syncLock)
+            {
+                if (!TryLoadCore(langCode) &&
+                    !langCode.Equals("en-US", StringComparison.OrdinalIgnoreCase) &&
+                    !TryLoadCore("en-US"))
+                {
+                    _currentLanguage = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                    _currentLangCode = "en-US";
+                    Debug.WriteLine("Cannot load any language file");
+                }
+            }
+        }
+
+        /// <inheritdoc cref="ILanguageProvider.GetAvailableLanguages"/>
+        public static IEnumerable<string> GetAvailableLanguages()
+        {
+            EnsureStorage();
+            return _storage.GetAvailableLanguages();
+        }
+
+        /// <summary>The currently active language code.</summary>
+        public static string CurrentLanguage
         {
             get
             {
-                if (_languageDir is null)
-                    _languageDir = Path.Combine(Application.StartupPath, "Language");
-                return _languageDir;
+                lock (_syncLock) { return _currentLangCode; }
             }
         }
+
+        // ── Dependency injection (OCP entry point) ────────────────────
+
+        /// <summary>
+        /// Inject a custom storage backend. If never called, defaults to
+        /// <see cref="JsonFileLanguageStorage"/> rooted at the Language directory.
+        /// Must be called before the first call to GetText / TryLoadLanguage / LoadLanguage.
+        /// </summary>
+        public static void SetStorage(ILanguageStorage storage)
+        {
+            lock (_syncLock)
+            {
+                if (_initialized)
+                    throw new InvalidOperationException(
+                        "Cannot change storage after languageManager has been initialized.");
+                _storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            }
+        }
+
+        // ── Initialization ────────────────────────────────────────────
 
         private static void EnsureInitialized()
         {
@@ -38,183 +137,53 @@ namespace NbtStudio
                 if (_initialized)
                     return;
 
-                EnsureLanguageDirectory();
+                EnsureStorage();
+                _storage.EnsureDefaults(LanguageDefaults.Entries);
                 LoadLanguage();
                 _initialized = true;
             }
         }
 
-        private static void EnsureLanguageDirectory()
+        private static void EnsureStorage()
         {
-            try
+            if (_storage is null)
             {
-                string dir = LanguageDir;
-                if (!Directory.Exists(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                    CreateDefaultLanguageFiles();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Init language directory failed: {ex.Message}");
+                var languageDir = Path.Combine(Application.StartupPath, "Language");
+                _storage = new JsonFileLanguageStorage(languageDir);
             }
         }
 
-        private static void CreateDefaultLanguageFiles()
+        // ── Core language loading ─────────────────────────────────────
+
+        private static bool TryLoadCore(string langCode)
         {
-            var defaultLanguages = new Dictionary<string, Dictionary<string, string>>
+            if (_storage.TryLoad(langCode, out var translations))
             {
-                ["en-US"] = new()
-                {
-                    {"MenuFile", "File"},
-                    {"MenuEdit", "Edit"},
-                    {"MenuSearch", "Find"},
-                    {"MenuHelp", "Help"},
-                },
-                ["zh-CN"] = new()
-                {
-                    {"MenuFile", "File"},
-                    {"MenuEdit", "Edit"},
-                    {"MenuSearch", "Find"},
-                    {"MenuHelp", "Help"},
-                }
-            };
-
-            foreach (var (langCode, translations) in defaultLanguages)
-            {
-                try
-                {
-                    var filePath = Path.Combine(LanguageDir, $"{langCode}.json");
-                    if (!File.Exists(filePath))
-                    {
-                        File.WriteAllText(
-                            filePath,
-                            JsonConvert.SerializeObject(translations, Formatting.Indented),
-                            Encoding.UTF8
-                        );
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Create default language file failed ({langCode}): {ex.Message}");
-                }
-            }
-        }
-
-        public static void LoadLanguage(string langCode = null)
-        {
-            langCode ??= Settings.Default.Language ?? "en-US";
-
-            lock (_syncLock)
-            {
-                if (!TryLoadLanguageInternal(langCode) && langCode != "en-US" && !TryLoadLanguageInternal("en-US"))
-                {
-                    _currentLanguage = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                    Debug.WriteLine("Cannot load any language file");
-                }
-            }
-        }
-
-        private static bool TryLoadLanguageInternal(string langCode)
-        {
-            if (_languageRegistry.TryGetValue(langCode, out var cached))
-            {
-                _currentLanguage = cached;
+                _currentLanguage = translations;
+                _currentLangCode = langCode;
                 return true;
             }
-
-            try
-            {
-                var filePath = Path.Combine(LanguageDir, $"{langCode}.json");
-
-                if (!filePath.StartsWith(LanguageDir, StringComparison.OrdinalIgnoreCase) ||
-                    !File.Exists(filePath))
-                {
-                    return false;
-                }
-
-                var json = File.ReadAllText(filePath, Encoding.UTF8);
-                if (string.IsNullOrWhiteSpace(json))
-                {
-                    Debug.WriteLine($"Language file empty: {langCode}");
-                    return false;
-                }
-
-                var settings = new JsonSerializerSettings
-                {
-                    MissingMemberHandling = MissingMemberHandling.Ignore,
-                    NullValueHandling = NullValueHandling.Ignore,
-                    MaxDepth = 10,
-                    Error = (_, args) => args.ErrorContext.Handled = true
-                };
-
-                var strings = JsonConvert.DeserializeObject<Dictionary<string, string>>(json, settings);
-                var dict = new Dictionary<string, string>(
-                    strings ?? new Dictionary<string, string>(),
-                    StringComparer.OrdinalIgnoreCase
-                );
-
-                _languageRegistry[langCode] = dict;
-                _currentLanguage = dict;
-                return true;
-            }
-            catch (Exception ex) when (ex is JsonException || ex is IOException)
-            {
-                Debug.WriteLine($"Language load failed ({langCode}): {ex.Message}");
-                return false;
-            }
+            return false;
         }
 
-        public static bool TryLoadLanguage(string langCode)
+        // ── Helpers ───────────────────────────────────────────────────
+
+        /// <summary>
+        /// Attempts to localize an error/fallback string using the current language.
+        /// Falls back to the hardcoded default if the language system is unavailable.
+        /// </summary>
+        private static string GetErrorText(string key, string fallback)
         {
-            lock (_syncLock)
-            {
-                EnsureInitialized();
-                if (TryLoadLanguageInternal(langCode))
-                    return true;
-                if (langCode != "en-US")
-                    return TryLoadLanguageInternal("en-US");
-                return _currentLanguage is not null && _currentLanguage.Count > 0;
-            }
+            IReadOnlyDictionary<string, string> lang;
+            lock (_syncLock) { lang = _currentLanguage; }
+
+            if (lang is not null && lang.TryGetValue(key, out var translated) && !string.IsNullOrWhiteSpace(translated))
+                return translated;
+
+            return fallback;
         }
 
-        public static string GetText(string key, string defaultValue = null, params object[] args)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                Debug.WriteLine($"Invalid localization key: [{key}]");
-                return "[INVALID_KEY]";
-            }
-
-            if (!_initialized)
-                EnsureInitialized();
-
-            Dictionary<string, string> lang;
-
-            lock (_syncLock)
-            {
-                lang = _currentLanguage;
-            }
-
-            if (lang is null)
-                return defaultValue ?? key;
-
-            string text = defaultValue ?? key;
-
-            if (!lang.TryGetValue(key, out var translation))
-            {
-                Debug.WriteLine($"Localization key missing: {key}");
-            }
-            else if (!string.IsNullOrWhiteSpace(translation))
-            {
-                text = translation;
-            }
-
-            return FormatSafe(text, args, key);
-        }
-
-        private static string FormatSafe(string format, object[] args, string key)
+        private static string SafeFormat(string format, object[] args, string key)
         {
             if (args is null || args.Length == 0)
                 return format;
@@ -226,25 +195,7 @@ namespace NbtStudio
             catch (FormatException ex)
             {
                 Debug.WriteLine($"Format failed: {key} - {ex.Message}");
-                return $"[FORMAT_ERROR:{key}]";
-            }
-        }
-
-        public static IEnumerable<string> GetAvailableLanguages()
-        {
-            try
-            {
-                string dir = LanguageDir;
-                if (!Directory.Exists(dir))
-                    return Array.Empty<string>();
-
-                return Directory.EnumerateFiles(dir, "*.json")
-                    .Select(Path.GetFileNameWithoutExtension)
-                    .Where(x => !string.IsNullOrEmpty(x));
-            }
-            catch
-            {
-                return Array.Empty<string>();
+                return GetErrorText("Format_Error", $"[FORMAT_ERROR:{key}]");
             }
         }
     }
